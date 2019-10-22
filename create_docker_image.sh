@@ -4,7 +4,6 @@
 : ${REGISTRY_USERNAME:=$GITHUB_ACTOR}
 : ${REGISTRY_PASSWORD:=$GITHUB_TOKEN}
 
-echo "Building binder"
-ls -al
-jupyter-repo2docker --no-run --ref $GITHUB_SHA .
 
+echo "Building binder"
+jupyter-repo2docker --no-run --user-name $GITHUB_ACTOR --ref $GITHUB_SHA .
