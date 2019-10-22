@@ -1,0 +1,8 @@
+name: 'repo2docker Action'
+description: 'Creates a docker image of your repository to view the collection of notebooks'
+outputs:
+  docker-image-uri:
+    description: 'The location of the docker image'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
