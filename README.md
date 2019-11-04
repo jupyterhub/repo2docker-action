@@ -47,5 +47,6 @@ jobs:
 ## Outputs
 
 - `IMAGE_SHA_NAME`:
-    description: 'The name of the docker image, which is tagged with the SHA.'
-
+    description: The name of the docker image, which is tagged with the SHA.
+- `IMAGE_URI`
+    description: The URI on DockerHub that corresponds to the image.
