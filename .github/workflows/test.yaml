@@ -11,8 +11,8 @@ jobs:
     - name: try-local-build
       uses: ./
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
          
