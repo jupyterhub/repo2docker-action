@@ -41,7 +41,7 @@ SHA_NAME="${BASE_NAME}:${shortSHA}"
 # Run repo2docker
 cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
 echo "repo2docker command: $cmd"
-jupyter-repo2docker --no-run --user-id 1234 --user-name $INPUT_DOCKER_USERNAME --ref $GITHUB_SHA .
+eval $cmd
 docker push ${SHA_NAME}
 
 # Emit output variables
