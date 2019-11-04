@@ -24,6 +24,6 @@ jobs:
           pip3 install requests
           python3 action_files/create_deployment.py
         env:
-          RUN_ID: ${{ steps.chatops.outputs.TRAILING_TOKEN }}
+          RUN_ID: "notebook-deploy"
           BRANCH_NAME: ${{ steps.chatops.outputs.BRANCH_NAME }}
           TOKEN: ${{ steps.chatops.outputs.APP_INSTALLATION_TOKEN }}
