@@ -32,7 +32,6 @@ jobs:
         IMAGE_NAME: "your_username/your_image_name"
 ```
 
-
 ## Mandatory Inputs
 
 - `DOCKER_USERNAME`:
