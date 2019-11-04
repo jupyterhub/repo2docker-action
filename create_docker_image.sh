@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 # Validate That Required Inputs Were Supplied
 function check_env() {
     if [ -z $(eval echo "\$$1") ]; then
