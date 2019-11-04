@@ -1,0 +1,29 @@
+name: ChatOps
+on: [issue_comment]
+
+jobs:
+  trigger:
+    if: github.event.issue.pull_request != null &&  contains(github.event.comment.body, '/build-notebook') && (github.actor == 'hamelsmu' || github.actor == 'neovintage'  || github.actor == 'inc0')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: machine-learning-apps/actions-chatops@master
+        id: chatops
+        with:
+          APP_PEM: ${{ secrets.APP_PEM }}
+          APP_ID: ${{ secrets.APP_ID }}
+          TRIGGER_PHRASE: "/build-notebook"
+          INDICATOR_LABEL: "Building Notebook"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Copy Repository Contents
+        uses: actions/checkout@master
+        
+      - name: create deployment
+        run: |
+          pip3 install requests
+          python3 action_files/create_deployment.py
+        env:
+          RUN_ID: ${{ steps.chatops.outputs.TRAILING_TOKEN }}
+          BRANCH_NAME: ${{ steps.chatops.outputs.BRANCH_NAME }}
+          TOKEN: ${{ steps.chatops.outputs.APP_INSTALLATION_TOKEN }}
