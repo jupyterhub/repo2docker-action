@@ -35,17 +35,8 @@ fi
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${BASE_NAME}:${shortSHA}"
 
-
-# Check if config path is overriden
-if [ ! -z "$INPUT_CONFIG_PATH" ]; then
-    echo "Different Binder Config Path Provided: $INPUT_CONFIG_PATH"
-    CONFIG_CMD="--config ${INPUT_CONFIG_PATH}"
-else
-    CONFIG_CMD=""
-fi
-
 # Run repo2docker
-cmd="jupyter-repo2docker ${CONFIG_CMD} --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
+cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
 echo "repo2docker command: $cmd"
 jupyter-repo2docker --no-run --user-id 1234 --user-name $INPUT_DOCKER_USERNAME --ref $GITHUB_SHA .
 docker push ${SHA_NAME}
