@@ -8,12 +8,9 @@ function check_env() {
     fi
 }
 
-check_env "INPUT_DOCKER_REGISTRY_USERNAME"
-check_env "INPUT_DOCKER_REGISTRY_PASSWORD"
+check_env "INPUT_DOCKER_USERNAME"
+check_env "INPUT_DOCKER_PASSWORD"
 check_env "INPUT_IMAGE_NAME"
-
-# Login to Docker registry
-echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin $DOCKER_REGISTRY
 
 # IF optional DOCKER_REGISTRY not supplied, revert to default registry.hub.docker.com
 if [ ! -z "$INPUT_DOCKER_REGISTRY" ]; then
@@ -22,6 +19,9 @@ if [ ! -z "$INPUT_DOCKER_REGISTRY" ]; then
 else
     DOCKER_REGISTRY="registry.hub.docker.com"
 fi
+
+# Login to Docker registry
+echo ${INPUT_DOCKER_PASSWORD} | docker login -u ${INPUT_DOCKER_USERNAME} --password-stdin $DOCKER_REGISTRY
 
 
 # GitHub's Docker Registry Requires You to prepend the owner/repo to the image name
@@ -45,9 +45,10 @@ else
 fi
 
 # Run repo2docker
-cmd="jupyter-repo2docker ${CONFIG_CMD} --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --push --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
+cmd="jupyter-repo2docker ${CONFIG_CMD} --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
 echo "repo2docker command: $cmd"
-jupyter-repo2docker --no-run --user-id 1001 --user-name $INPUT_DOCKER_REGISTRY_USERNAME --ref $GITHUB_SHA .
+jupyter-repo2docker --no-run --user-id 1234 --user-name $INPUT_DOCKER_USERNAME --ref $GITHUB_SHA .
+docker push ${SHA_NAME}
 
 # Emit output variables
 echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
