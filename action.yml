@@ -10,10 +10,6 @@ inputs:
   IMAGE_NAME:
     description: name of the image.  Example - myContainer
     require: true
-  DOCKER_REGISTRY:
-    description: The uri of the docker registry
-    require: false
-    default: "registry.hub.docker.com"
 outputs:
   IMAGE_SHA_NAME:
     description: 'The name of the docker image, which is tagged with the SHA.'

@@ -9,6 +9,8 @@ repo2docker will automatically attempt to build an environment from configuratio
 
 Read the full docs on repo2docker for more information:  https://repo2docker.readthedocs.io
 
+The only docker registry supported at the moment is Dockerhub.
+
 ## Recommended Usage
 
 You must copy the contents of your repository to use this action as illustrated below:
@@ -42,14 +44,7 @@ jobs:
 - `IMAGE_NAME`:
     description: name of the image.  Example - myContainer
 
-## Optional Inputs
-
-- `DOCKER_REGISTRY`:
-    description: The uri of the docker registry
-    default: "registry.hub.docker.com"
-
 ## Outputs
-
 
 - `IMAGE_SHA_NAME`:
     description: 'The name of the docker image, which is tagged with the SHA.'
