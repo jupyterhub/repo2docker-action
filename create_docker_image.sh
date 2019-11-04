@@ -39,9 +39,10 @@ shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${BASE_NAME}:${shortSHA}"
 
 # Run repo2docker
-cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
+cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA --push ${PWD}"
 echo "repo2docker command: $cmd"
 eval $cmd
+echo "docker push ${SHA_NAME}"
 docker push ${SHA_NAME}
 
 # Emit output variables
