@@ -3,13 +3,11 @@
 # <a href="https://github.com/jupyter/repo2docker"><img src="https://raw.githubusercontent.com/jupyter/repo2docker/3fa7444fca6ae2b51e590cbc9d83baf92738ca2a/docs/source/_static/images/repo2docker.png" height="40px" /></a>  repo2docker GitHub Action
 
 
-Trigger [repo2docker](https://github.com/jupyter/repo2docker) to turn your GitHub repository into a Jupyter enabled docker image.
-
-repo2docker will automatically attempt to build an environment from configuration files found in your repository in the [manner described here](https://repo2docker.readthedocs.io/en/latest/usage.html#where-to-put-configuration-files)
+Trigger [repo2docker](https://github.com/jupyter/repo2docker) to turn your GitHub repository into a Jupyter enabled docker image.  This will automatically attempt to build an environment from configuration files found in your repository in the [manner described here](https://repo2docker.readthedocs.io/en/latest/usage.html#where-to-put-configuration-files).
 
 Read the full docs on repo2docker for more information:  https://repo2docker.readthedocs.io
 
-The only docker registry supported at the moment is Dockerhub.
+**The only docker registry supported at the moment is Dockerhub.**
 
 ## Recommended Usage
 
