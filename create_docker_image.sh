@@ -24,7 +24,7 @@ else
 fi
 
 # Login to Docker registry
-echo ${INPUT_DOCKER_PASSWORD} | docker login -u ${INPUT_DOCKER_USERNAME} --password-stdin $DOCKER_REGISTRY
+echo ${INPUT_DOCKER_PASSWORD} | docker login -u ${INPUT_DOCKER_USERNAME} --password-stdin
 
 
 # GitHub's Docker Registry Requires You to prepend the owner/repo to the image name
