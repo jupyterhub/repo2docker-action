@@ -8,11 +8,11 @@ jobs:
     - name: checkout files in repo
       uses: actions/checkout@master
 
-     - name: try-local-build
-       uses: ./
-       with:
-         DOCKER_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
-         DOCKER_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-         IMAGE_NAME: "hamelsmu/repo2docker-test"
+    - name: try-local-build
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
          
