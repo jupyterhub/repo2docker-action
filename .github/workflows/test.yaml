@@ -8,7 +8,7 @@ jobs:
     - name: see var
       run: echo $BOOL
       env:
-        BOOL: ${{ ! (contains(github.event.pull_request.title, '[skip-test]')) }}
+        BOOL: ${{ contains(github.event.pull_request.title, '[skip-test]') }}
 
     - name: checkout files in repo
       uses: actions/checkout@master
