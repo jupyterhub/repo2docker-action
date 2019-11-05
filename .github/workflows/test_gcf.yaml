@@ -4,7 +4,7 @@ on: push
 
 jobs:
   deploy:
-    if: github.event.pull_request.title && ! contains(github.event.pull_request.title, '[skip-test]')
+    if: ! (contains(github.event.pull_request.title, '[skip-test]'))
     runs-on: ubuntu-latest
     steps:
 
