@@ -18,14 +18,24 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-    - uses: exelban/gcloud@master
+    - name: paperspace-deploy
+      id: paperspace
+      run: |
+        pip install gradient
+        gradient apiKey ${PAPERSPACE_TOKEN}
+        gradient jobs create --container ${IMAGE_NAME} --projectId ${PAPERSPACE_PROJECT_ID} --machineType K80 --ports 8888:8888
       env:
-        PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        PAPERSPACE_TOKEN: ${{ secrets.PAPERSPACE_TOKEN }}
+        PAPERSPACE_PROJECT_ID: ${{ secrets.PAPERSPACE_PROJECT_ID }}
         IMAGE_NAME: ${{ steps.repo2docker.outputs.IMAGE_SHA_NAME }}
-      with:
-        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --platform managed --region us-west1 --image $IMAGE_NAME
 
+    # - uses: exelban/gcloud@master
+    #   env:
+    #     PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+    #     APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+    #     IMAGE_NAME: ${{ steps.repo2docker.outputs.IMAGE_SHA_NAME }}
+    #   with:
+    #     args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --platform managed --region us-west1 --image $IMAGE_NAME
     # - run: |
     #     curl -d '{"state": "failure"}' -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/"$GITHUB_REPOSITORY"/deployments/"$DEPLOYMENT_ID"/statuses
     #   if: failure()

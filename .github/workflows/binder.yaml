@@ -1,0 +1,31 @@
+name: Binder
+on: 
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  Create-Binder-Badge:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: write payload
+      run: |
+        cat $GITHUB_EVENT_PATH > payload.json
+    - name: Upload payload
+      uses: actions/upload-artifact@v1
+      with:
+        name: payload
+        path: payload.json
+
+    - name: Copy Repository Contents
+      uses: actions/checkout@master
+
+    - name: Comment With Metadata
+      run: |
+        echo "Providing Binder link for PR ${ISSUE_NUMBER}"
+        bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.number }}
+        BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+
