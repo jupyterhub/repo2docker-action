@@ -2,6 +2,8 @@ name: Tests
 on: [push]
 jobs:
   build:
+    if: ! contains(github.event.pull_request.title, '[skip-test]')
+
     runs-on: ubuntu-latest
     steps:
 

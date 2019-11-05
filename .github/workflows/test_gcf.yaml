@@ -4,6 +4,7 @@ on: push
 
 jobs:
   deploy:
+    if: ! contains(github.event.pull_request.title, '[skip-test]')
     runs-on: ubuntu-latest
     steps:
 
