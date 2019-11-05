@@ -2,8 +2,7 @@ name: Tests
 on: [push]
 jobs:
   build:
-    if: ! contains(github.event.pull_request.title, '[skip-test]')
-
+    if: 1 == 2
     runs-on: ubuntu-latest
     steps:
 
