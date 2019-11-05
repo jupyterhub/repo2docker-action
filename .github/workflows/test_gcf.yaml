@@ -4,6 +4,7 @@ on: push
 
 jobs:
   deploy:
+    if: 1 ==2
     runs-on: ubuntu-latest
     steps:
 
