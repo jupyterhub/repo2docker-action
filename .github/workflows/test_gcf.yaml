@@ -4,6 +4,7 @@ on: push
 
 jobs:
   deploy:
+    # turn workflow off
     if: 1 ==2
     runs-on: ubuntu-latest
     steps:
