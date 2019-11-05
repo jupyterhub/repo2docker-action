@@ -27,5 +27,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.number }}
-        BRANCH_NAME: ${{ github.event.head.ref }}
+        BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
 
