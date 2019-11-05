@@ -2,26 +2,18 @@ name: Tests
 on: [push]
 jobs:
   build:
+    if: 1 == 2
     runs-on: ubuntu-latest
     steps:
 
-    - name: see var
-      run: |
-        echo $GITHUB_EVENT_NAME
-        echo $BOOL
-        echo $TEST
-      env:
-        BOOL: ${{ contains(github.event.pull_request.title, 'skip-test') }}
-        TEST: ${{ toJSON(github.event.commit) }}
+    - name: checkout files in repo
+      uses: actions/checkout@master
 
-    # - name: checkout files in repo
-    #   uses: actions/checkout@master
-
-    # - name: try-local-build
-    #   uses: ./
-    #   with:
-    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-    #     IMAGE_NAME: "hamelsmu/repo2docker-test"
+    - name: try-local-build
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
          
