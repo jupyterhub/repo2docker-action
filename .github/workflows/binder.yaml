@@ -7,7 +7,7 @@ jobs:
   Create-Binder-Badge:
     runs-on: ubuntu-latest
     steps:
-    
+
     - name: write payload
       run: |
         cat $GITHUB_EVENT_PATH > payload.json
@@ -23,7 +23,7 @@ jobs:
       - name: Comment With Metadata
         run: |
           echo "Providing Binder link for PR ${ISSUE_NUMBER}"
-          bash action_files/pr_comment.sh "Launch Binder Notebook: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${GITHUB_REF})"
+          bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${GITHUB_REF}) :point_left: Launch a binder notebook on this branch"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.number }}
