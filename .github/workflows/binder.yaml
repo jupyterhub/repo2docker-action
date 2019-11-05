@@ -7,6 +7,8 @@ jobs:
   Create-Binder-Badge:
     runs-on: ubuntu-latest
     steps:
+      - name: print payload
+        run: cat $GITHUB_EVENT_PATH
 
       - name: Copy Repository Contents
         uses: actions/checkout@master
