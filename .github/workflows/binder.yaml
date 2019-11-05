@@ -14,7 +14,7 @@ jobs:
       - name: Comment With Metadata
         run: |
           echo "Providing Binder link for PR ${ISSUE_NUMBER}"
-          bash action_files/pr_comment.sh "[![Launch Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${GITHUB_REF})"
+          bash action_files/pr_comment.sh "Launch Binder Notebook: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${GITHUB_REF})"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.number }}
