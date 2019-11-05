@@ -11,7 +11,7 @@ jobs:
         echo $TEST
       env:
         BOOL: ${{ contains(github.event.pull_request.title, 'skip-test') }}
-        TEST: ${{ github.event.pull_request.title }}
+        TEST: ${{ toJSON(github.event.pull_request) }}
 
     # - name: checkout files in repo
     #   uses: actions/checkout@master
