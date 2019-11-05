@@ -12,4 +12,4 @@ jobs:
         PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --image hamelsmu/repo2docker-test:d28ad6b9fa6a
+        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --platform managed --image hamelsmu/repo2docker-test:d28ad6b9fa6a
