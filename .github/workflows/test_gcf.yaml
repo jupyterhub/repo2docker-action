@@ -1,0 +1,15 @@
+name: Google Cloud Function Notebook Deploy Test
+
+on: push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: exelban/gcloud@master
+      env:
+        PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --platform managed --region us-west1 --image hamelsmu/repo2docker-test:d28ad6b9fa6a
