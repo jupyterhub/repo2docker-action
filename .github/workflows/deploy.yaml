@@ -24,7 +24,7 @@ jobs:
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         IMAGE_NAME: ${{ steps.repo2docker.outputs.IMAGE_SHA_NAME }}
       with:
-        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --image $IMAGE_NAME
+        args: --quiet beta run deploy notebook-serve-action --allow-unauthenticated --platform managed --region us-west1 --image $IMAGE_NAME
 
     # - run: |
     #     curl -d '{"state": "failure"}' -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/"$GITHUB_REPOSITORY"/deployments/"$DEPLOYMENT_ID"/statuses
