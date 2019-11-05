@@ -17,15 +17,15 @@ jobs:
         name: payload
         path: payload.json
 
-      - name: Copy Repository Contents
-        uses: actions/checkout@master
+    - name: Copy Repository Contents
+      uses: actions/checkout@master
 
-      - name: Comment With Metadata
-        run: |
-          echo "Providing Binder link for PR ${ISSUE_NUMBER}"
-          bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.number }}
-          BRANCH_NAME: ${{ github.event.head.ref }}
+    - name: Comment With Metadata
+      run: |
+        echo "Providing Binder link for PR ${ISSUE_NUMBER}"
+        bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.number }}
+        BRANCH_NAME: ${{ github.event.head.ref }}
 
