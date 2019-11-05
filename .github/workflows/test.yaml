@@ -6,12 +6,15 @@ jobs:
     steps:
 
     - name: see var
-      run: echo $BOOL
+      run: |
+        echo $BOOL
+        echo $TEST
       env:
         BOOL: ${{ contains(github.event.pull_request.title, 'skip-test') }}
+        TEST: ${{ github.event.pull_request.title }}
 
-    - name: checkout files in repo
-      uses: actions/checkout@master
+    # - name: checkout files in repo
+    #   uses: actions/checkout@master
 
     # - name: try-local-build
     #   uses: ./
