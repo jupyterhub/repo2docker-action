@@ -36,11 +36,9 @@ jobs:
 ## Mandatory Inputs
 
 - `DOCKER_USERNAME`:
-    description: Docker registry username
-    
- -`DOCKER_PASSWORD`:
+    description: Docker registry username 
+- `DOCKER_PASSWORD`:
     description: Docker registry password
-    
 - `IMAGE_NAME`:
     description: name of the image.  Example - myContainer
 
@@ -48,6 +46,5 @@ jobs:
 
 - `IMAGE_SHA_NAME`:
     description: The name of the docker image, which is tagged with the SHA.
-    
 - `IMAGE_URI`
     description: The URI on DockerHub that corresponds to the image.
