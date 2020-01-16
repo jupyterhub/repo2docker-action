@@ -15,6 +15,8 @@ check_env "INPUT_DOCKER_USERNAME"
 check_env "INPUT_DOCKER_PASSWORD"
 check_env "INPUT_IMAGE_NAME"
 
+# Pick username
+NB_USER=${NOTEBOOK_USER:-"$GITHUB_ACTOR"}
 
 # Login to Docker registry
 echo ${INPUT_DOCKER_PASSWORD} | docker login -u ${INPUT_DOCKER_USERNAME} --password-stdin
@@ -24,7 +26,7 @@ shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 
 # Run repo2docker
-cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${GITHUB_ACTOR} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
+cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
 echo "repo2docker command: $cmd"
 eval $cmd
 echo "docker push ${SHA_NAME}"
