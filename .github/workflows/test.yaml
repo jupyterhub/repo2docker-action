@@ -38,7 +38,7 @@ jobs:
         DOCKER_USERNAME: "hamelsmu"
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
         IMAGE_NAME: "containers.pkg.github.com/hamelsmu/repo2docker-automated-test-gcr"
-        REGISTRY: "containers.pkg.github.com"
+        DOCKER_REGISTRY: "containers.pkg.github.com"
 
 
 
@@ -63,4 +63,4 @@ jobs:
       with:
         DOCKER_USERNAME: "hamelsmu"
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
-        REGISTRY: "containers.pkg.github.com"
+        DOCKER_REGISTRY: "containers.pkg.github.com"
