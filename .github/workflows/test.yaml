@@ -1,5 +1,5 @@
-name: Tests
-on: [push]
+name: Test
+on: [push, pull_request]
 jobs:
 
   # debug-tmate:
@@ -37,10 +37,8 @@ jobs:
       with:
         DOCKER_USERNAME: "hamelsmu"
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
-        IMAGE_NAME: "containers.pkg.github.com/hamelsmu/repo2docker-automated-test-gcr"
+        IMAGE_NAME: "hamelsmu/repo2docker-automated-test-gcr"
         DOCKER_REGISTRY: "containers.pkg.github.com"
-
-
 
   no-imagename:
     runs-on: ubuntu-latest
