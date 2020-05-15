@@ -1,17 +1,43 @@
 name: Tests
 on: [push]
 jobs:
-  build:
+  build-with-imagename:
     runs-on: ubuntu-latest
     steps:
-      
+
     - name: Checkout
       uses: actions/checkout@v2
-    - name: try-local-build
+    - name: test-dockerhub
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-         
+    - name: test-github-container-registry
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.PAT }}
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+        REGISTRY: "containers.pkg.github.com"
+
+jobs:
+  build-without-imagename:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: test-dockerhub-no-imagename
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: test-github-container-registry
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.GITHUB_CONTAINER_REGISTRY_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.PAT }}
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+        REGISTRY: "containers.pkg.github.com"
