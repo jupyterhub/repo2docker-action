@@ -38,13 +38,15 @@ jobs:
     description: Docker registry username
 - `DOCKER_PASSWORD`:
     description: Docker registry password
-- `IMAGE_NAME`:
-    description: name of the image.  Example - myContainer
 
 ## Optional Inputs
 
 - `NOTEBOOK_USER`:
     description: username of the primary user in the image. If this is not specified, the username in `$GITHUB_ACTOR` is used.
+- `IMAGE_NAME`:
+    name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `$DOCKER_USERNAME/  $GITHUB_REPOSITORY_NAME`
+- `DOCKER_REGISTRY`:
+    description: name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
 
 ## Outputs
 

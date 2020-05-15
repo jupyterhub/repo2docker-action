@@ -13,13 +13,24 @@ function check_env() {
 
 check_env "INPUT_DOCKER_USERNAME"
 check_env "INPUT_DOCKER_PASSWORD"
-check_env "INPUT_IMAGE_NAME"
+REPO_NAME=`echo $GITHUB_REPOSITORY | cut -d "/" -f 2`
+
+# Set image name to username/repo_name if not provided
+if [ -z "$INPUT_IMAGE_NAME" ]
+then
+      INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
+fi
+
+# Prepend image name with registry if it is supplied
+if [ "$INPUT_REGISTRY" ]; then
+    INPUT_IMAGE_NAME="$INPUT_REGISTRY/$INPUT_IMAGE_NAME"
+fi
 
 # Pick username
 NB_USER=${NOTEBOOK_USER:-"$GITHUB_ACTOR"}
 
 # Login to Docker registry
-echo ${INPUT_DOCKER_PASSWORD} | docker login -u ${INPUT_DOCKER_USERNAME} --password-stdin
+echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_DOCKER_USERNAME} --password-stdin
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
@@ -34,4 +45,3 @@ docker push ${SHA_NAME}
 
 # Emit output variables
 echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
-echo "::set-output name=IMAGE_URI::https://hub.docker.com/r/${INPUT_IMAGE_NAME}"
