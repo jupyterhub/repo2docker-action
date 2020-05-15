@@ -40,7 +40,7 @@ SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
 
 # Run repo2docker
-cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
+cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}"
 echo "repo2docker command: $cmd"
 eval $cmd
 echo "docker push ${SHA_NAME}"
