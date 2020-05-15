@@ -2,7 +2,7 @@ name: Tests
 on: [push]
 jobs:
 
-  debug:
+  debug-tmate:
     runs-on: ubuntu-latest
     steps:
     - name: Setup tmate session
