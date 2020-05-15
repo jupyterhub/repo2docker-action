@@ -1,6 +1,16 @@
 name: Tests
 on: [push]
 jobs:
+  
+  debug:
+  - name: Setup tmate session
+    uses: mxschmitt/action-tmate@v2
+    with:
+      DOCKER_USERNAME: "hamelsmu"
+      DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
+      IMAGE_NAME: "hamelsmu/repo2docker-automated-test-gcr"
+      REGISTRY: "containers.pkg.github.com"
+
   imagename:
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +37,8 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
         IMAGE_NAME: "hamelsmu/repo2docker-automated-test-gcr"
         REGISTRY: "containers.pkg.github.com"
+
+
 
   no-imagename:
     runs-on: ubuntu-latest
