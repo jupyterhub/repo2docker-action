@@ -44,7 +44,7 @@ jobs:
 - `NOTEBOOK_USER`:
     description: username of the primary user in the image. If this is not specified, the username in `$GITHUB_ACTOR` is used.
 - `IMAGE_NAME`:
-    name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `$DOCKER_USERNAME/  $GITHUB_REPOSITORY_NAME`
+    name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `DOCKER_USERNAME/GITHUB_REPOSITORY_NAME`
 - `DOCKER_REGISTRY`:
     description: name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
 
@@ -52,5 +52,3 @@ jobs:
 
 - `IMAGE_SHA_NAME`:
     description: The name of the docker image, which is tagged with the SHA.
-- `IMAGE_URI`
-    description: The URI on DockerHub that corresponds to the image.
