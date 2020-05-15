@@ -22,8 +22,8 @@ then
 fi
 
 # Prepend image name with registry if it is supplied
-if [ "$INPUT_REGISTRY" ]; then
-    INPUT_IMAGE_NAME="$INPUT_REGISTRY/$INPUT_IMAGE_NAME"
+if [ "$INPUT_DOCKER_REGISTRY" ]; then
+    INPUT_IMAGE_NAME="$INPUT_DOCKER_REGISTRY/$INPUT_IMAGE_NAME"
 fi
 
 # Pick username
