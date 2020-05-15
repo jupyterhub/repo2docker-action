@@ -7,7 +7,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-    - name: test-dockerhub
+    - name: dockerhub
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -20,7 +20,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-    - name: test-dockerhub
+    - name: gcr
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
@@ -33,7 +33,7 @@ jobs:
     steps:  
     - name: Checkout
       uses: actions/checkout@v2
-    - name: test-dockerhub-no-imagename
+    - name: dockerhub
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -44,7 +44,7 @@ jobs:
     steps:  
     - name: Checkout
       uses: actions/checkout@v2
-    - name: test-github-container-registry
+    - name: gcr
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.GITHUB_CONTAINER_REGISTRY_USERNAME }}
