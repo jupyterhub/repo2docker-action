@@ -2,17 +2,6 @@ name: Test
 on: [push, pull_request]
 jobs:
 
-  # debug-tmate:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Setup tmate session
-  #     uses: mxschmitt/action-tmate@v2
-  #     with:
-  #       DOCKER_USERNAME: "hamelsmu"
-  #       DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
-  #       IMAGE_NAME: "containers.pkg.github.com/hamelsmu/repo2docker-automated-test-gcr"
-  #       REGISTRY: "containers.pkg.github.com"
-
   imagename:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +15,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-  imagename-gcr:
+  imagename-ghcr:
     runs-on: ubuntu-latest
     steps:
 
@@ -51,7 +40,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  no-imagename-gcr:
+  no-imagename-ghcr:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout
