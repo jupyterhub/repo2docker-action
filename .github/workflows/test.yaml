@@ -1,7 +1,7 @@
 name: Tests
 on: [push]
 jobs:
-  build-with-imagename:
+  imagename:
     runs-on: ubuntu-latest
     steps:
 
@@ -14,7 +14,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-  build-with-imagename-gcr:
+  imagename-gcr:
     runs-on: ubuntu-latest
     steps:
 
@@ -28,7 +28,7 @@ jobs:
         IMAGE_NAME: "hamelsmu/repo2docker-automated-test-gcr"
         REGISTRY: "containers.pkg.github.com"
 
-  build-without-imagename:
+  no-imagename:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout
@@ -39,7 +39,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  build-without-imagename-gcr:
+  no-imagename-gcr:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout
