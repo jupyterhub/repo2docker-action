@@ -22,7 +22,6 @@ jobs:
         IMAGE_NAME: "hamelsmu/repo2docker-test"
         REGISTRY: "containers.pkg.github.com"
 
-jobs:
   build-without-imagename:
     runs-on: ubuntu-latest
     steps:  
