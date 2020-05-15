@@ -2,13 +2,8 @@ name: Tests
 on: [push]
 jobs:
   build:
-    # turn workflow off
-    if: 1 == 2
     runs-on: ubuntu-latest
     steps:
-
-    - name: checkout files in repo
-      uses: actions/checkout@master
 
     - name: try-local-build
       uses: ./
