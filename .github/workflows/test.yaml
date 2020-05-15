@@ -39,7 +39,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  build-without-imagename:
+  build-without-imagename-gcr:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout
