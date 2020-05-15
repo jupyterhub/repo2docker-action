@@ -36,6 +36,9 @@ echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_D
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 
+# Attempt to pull the image for a cached build
+docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
+
 # Run repo2docker
 cmd="jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --ref $GITHUB_SHA ${PWD}"
 echo "repo2docker command: $cmd"
