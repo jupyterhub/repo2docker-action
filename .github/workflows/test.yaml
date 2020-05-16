@@ -1,13 +1,22 @@
 name: Test
 on: [push, pull_request]
-jobs:
 
+
+jobs:
+      
   imagename:
     runs-on: ubuntu-latest
     steps:
-
-    - name: Checkout
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+      
     - name: dockerhub
       uses: ./
       with:
@@ -19,8 +28,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+      
     - name: gcr
       uses: ./
       with:
@@ -32,8 +49,16 @@ jobs:
   no-imagename:
     runs-on: ubuntu-latest
     steps:  
-    - name: Checkout
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+      
     - name: dockerhub
       uses: ./
       with:
@@ -43,8 +68,16 @@ jobs:
   no-imagename-ghcr:
     runs-on: ubuntu-latest
     steps:  
-    - name: Checkout
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+      
     - name: gcr
       uses: ./
       with:
