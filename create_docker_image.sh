@@ -40,6 +40,8 @@ SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 
 # Attempt to pull the image for a cached build
 docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
+ls $PWD
+docker images
 echo "::endgroup::"
 
 
