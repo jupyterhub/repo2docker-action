@@ -3,7 +3,26 @@ on: [push, pull_request]
 
 
 jobs:
-      
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v2
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+
   imagename:
     runs-on: ubuntu-latest
     steps:
