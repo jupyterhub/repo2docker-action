@@ -32,7 +32,7 @@ jobs:
       if: github.event_name == 'push'
       uses: actions/checkout@v2
       
-    - name: dockerhub
+    - name: push to dockerhub
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -74,7 +74,7 @@ jobs:
       if: github.event_name == 'push'
       uses: actions/checkout@v2
       
-    - name: dockerhub
+    - name: push to dockerhub
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
