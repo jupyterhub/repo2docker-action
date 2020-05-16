@@ -53,8 +53,10 @@ eval $cmd
 echo "::endgroup::"
 
 echo "::group::Push Container To Registry" 
+docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
 echo "docker push ${SHA_NAME}"
 docker push ${SHA_NAME}
+docker push ${INPUT_IMAGE_NAME}:latest
 echo "::endgroup::"
 
 # Emit output variables
