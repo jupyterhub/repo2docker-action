@@ -3,22 +3,6 @@ on: [push, pull_request]
 
 
 jobs:
-  # debug:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout PR
-  #     if: github.event_name == 'pull_request'
-  #     uses: actions/checkout@v2
-  #     with:
-  #       ref: ${{ github.event.pull_request.head.sha }}
-  
-  #   - name: Checkout
-  #     if: github.event_name == 'push'
-  #     uses: actions/checkout@v2
-
-  #   - name: Setup tmate session
-  #     uses: mxschmitt/action-tmate@v2
-
   imagename:
     runs-on: ubuntu-latest
     steps:
@@ -79,6 +63,13 @@ jobs:
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  
+    - name: push to dockerhub w/additional tag
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        ADDITIONAL_TAG: 'test-additional-tag'
 
   no-imagename-ghcr:
     runs-on: ubuntu-latest
@@ -99,3 +90,63 @@ jobs:
         DOCKER_USERNAME: "hamelsmu"
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
         DOCKER_REGISTRY: "containers.pkg.github.com"
+
+  debug-mode-no-registry:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+      
+    - name: debug mode
+      uses: ./
+      with:
+        DEBUG: 'true'
+    
+    - name: debug w/additional tag
+      uses: ./
+      with:
+        DEBUG: 'true'
+        ADDITIONAL_TAG: 'additional-tag-test'
+
+    - name: debug without latest tag
+      uses: ./
+      with:
+        DEBUG: 'true'
+        LATEST_TAG_OFF: 'true'
+
+
+  debug-mode-registry:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+  
+    - name: Checkout
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+
+    - name: gcr - debug
+      uses: ./
+      with:
+        DOCKER_USERNAME: "hamelsmu"
+        DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
+        DEBUG: 'true'
+        DOCKER_REGISTRY: "containers.pkg.github.com"
+
+    - name: push to dockerhub debug mode
+      uses: ./
+      with:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DEBUG: 'true'
+        IMAGE_NAME: "hamelsmu/repo2docker-test"

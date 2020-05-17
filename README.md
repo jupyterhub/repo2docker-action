@@ -44,8 +44,9 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
-
 ## Mandatory Inputs
+
+**Exception: if the input parameter `DEBUG` is set to any value, these values can be skipped`
 
 - `DOCKER_USERNAME`:
     description: Docker registry username
@@ -59,12 +60,20 @@ jobs:
 - `IMAGE_NAME`:
     name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to <DOCKER_USERNAME/GITHUB_REPOSITORY_NAME>
 - `DOCKER_REGISTRY`:
-    description: name of the docker registry.  If not supplied, this defaults to [DockerHub](https://hub.docker.com/).
+    description: name of the docker registry.  If not supplied, this defaults to [DockerHub](https://hub.docker.com/)
+- `LATEST_TAG_OFF`:
+    Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the [GitHub commit SHA](https://help.github.com/en/github/getting-started-with-github/github-glossary#commit).  This is enabled by default.
+- `ADDITIONAL_TAG`:
+    An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant [GitHub commit SHA](https://help.github.com/en/github/getting-started-with-github/github-glossary#commit).
+- `DEBUG`:
+    Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.  This is `false` by default.
 
 ## Outputs
 
-- `IMAGE_SHA_NAME`:
-    description: The name of the docker image, which is tagged with the SHA.
+- `IMAGE_SHA_NAME`
+    The name of the docker image, which is tagged with the SHA.
+- `DEBUG_STATUS`:
+    This will be `true` if debug mode was turned on or `false` otherwhise.
 
 # Examples
 
