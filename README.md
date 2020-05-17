@@ -83,9 +83,9 @@ jobs:
 
     - name: update jupyter dependencies with repo2docker
       uses: machine-learning-apps/repo2docker-action@master
-      with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} # make sure username is for your other registry
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} # make sure password is for your other registry
+      with: # make sure username & password matches your registry
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_REGISTRY: "containers.pkg.github.com"
 ```
 
@@ -107,7 +107,7 @@ jobs:
     - name: update jupyter dependencies with repo2docker
       uses: machine-learning-apps/repo2docker-action@master
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} # make sure username is for your other registry
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} # make sure password is for your other registry
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/my-awesome-image" # this overrides the image name
 ```
