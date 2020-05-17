@@ -120,3 +120,28 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/my-awesome-image" # this overrides the image name
 ```
+
+## Test Image Build
+
+You might want to only test the image build withtout pusing to a registry, for example to test a pull request. You can do this by specifying any value for the `DEBUG` parameter:
+
+```yaml
+name: Build Notebook Container
+on: [pull_request]
+
+  debug-mode-no-registry:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: test build
+      uses: machine-learning-apps/repo2docker-action@master
+      with:
+        DEBUG: 'true'
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+```
+
+_When you specify a value for the `DEBUG` parameter, you can omit the otherwhise mandatory parameters `DOCKER_USERNAME` and `DOCKER_PASSWORD` as no images are pushed to a registry in debug mode._
