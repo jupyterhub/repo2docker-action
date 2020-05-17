@@ -108,19 +108,21 @@ jobs:
       uses: ./
       with:
         DEBUG: 'true'
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
     
     - name: debug w/additional tag
       uses: ./
       with:
         DEBUG: 'true'
         ADDITIONAL_TAG: 'additional-tag-test'
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
     - name: debug without latest tag
       uses: ./
       with:
         DEBUG: 'true'
         LATEST_TAG_OFF: 'true'
-
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
   debug-mode-registry:
     runs-on: ubuntu-latest
@@ -142,6 +144,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
         DEBUG: 'true'
         DOCKER_REGISTRY: "containers.pkg.github.com"
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
     - name: push to dockerhub debug mode
       uses: ./
