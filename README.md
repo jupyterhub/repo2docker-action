@@ -46,7 +46,7 @@ jobs:
 
 ## Mandatory Inputs
 
-**Exception: if the input parameter `DEBUG` is set to any value, these values can be skipped`
+**Exception: if the input parameter `DEBUG` is set to any value, these values become optional.**
 
 - `DOCKER_USERNAME`:
     description: Docker registry username
@@ -66,7 +66,7 @@ jobs:
 - `ADDITIONAL_TAG`:
     An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant [GitHub commit SHA](https://help.github.com/en/github/getting-started-with-github/github-glossary#commit).
 - `DEBUG`:
-    Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.  This is `false` by default.
+    Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to a registry.  Furthermore, verbose logging will be enabled.  This is disabled by default.
 
 ## Outputs
 
