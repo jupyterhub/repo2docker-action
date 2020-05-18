@@ -8,7 +8,9 @@ jobs:
     if: 1 ==2
     runs-on: ubuntu-latest
     steps:
-
+      # GCP: https://cloud.google.com/sdk/gcloud/reference/beta/notebooks
+      # Azure: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-gpu
+      # AWS: sagemaker?
     - uses: exelban/gcloud@master
       env:
         PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
