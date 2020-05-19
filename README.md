@@ -45,7 +45,7 @@ jobs:
 
 ## Mandatory Inputs
 
-**Exception: if the input parameter `DEBUG` is set to any value, these values become optional.**
+**Exception: if the input parameter `NO_PUSH` is set to any value, these values become optional.**
 
 - `DOCKER_USERNAME`:
     description: Docker registry username
@@ -122,13 +122,13 @@ jobs:
 
 ## Test Image Build
 
-You might want to only test the image build withtout pusing to a registry, for example to test a pull request. You can do this by specifying any value for the `DEBUG` parameter:
+You might want to only test the image build withtout pusing to a registry, for example to test a pull request. You can do this by specifying any value for the `NO_PUSH` parameter:
 
 ```yaml
 name: Build Notebook Container
 on: [pull_request]
 
-  debug-mode-no-registry:
+  build-image-without-pushing:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
