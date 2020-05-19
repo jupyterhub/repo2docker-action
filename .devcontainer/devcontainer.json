@@ -1,0 +1,5 @@
+{
+	"name": "Test Jupyter Notebook",
+    "forwardPorts": 8888,
+    "image": " hamelsmu/repo2docker-test"
+}
