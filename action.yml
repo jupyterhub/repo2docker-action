@@ -22,7 +22,7 @@ inputs:
   ADDITIONAL_TAG:
     description: An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant GitHub SHA.
     require: false
-  DEBUG:
+  NO_PUSH:
     description: Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.
     require: false
 outputs:

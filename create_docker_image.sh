@@ -13,7 +13,7 @@ function check_env() {
     fi
 }
 
-if [ -z "$INPUT_DEBUG" ]; then
+if [ -z "$INPUT_NO_PUSH" ]; then
     check_env "INPUT_DOCKER_USERNAME"
     check_env "INPUT_DOCKER_PASSWORD"
     # Login to Docker registry
@@ -43,7 +43,7 @@ SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
 echo "::endgroup::"
 
-if [ -z "$INPUT_DEBUG" ]; then
+if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::group::Build and Push ${SHA_NAME}" 
         jupyter-repo2docker --push --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
 
@@ -59,11 +59,16 @@ if [ -z "$INPUT_DEBUG" ]; then
     echo "::endgroup::"
 
     echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
-    echo "::set-output name=DEBUG_STATUS::false"
+    echo "::set-output name=PUSH_STATUS::true"
 else
-    echo "::group::Build Image - Debug Mode" 
+    echo "::group::Build Image Without Pushing" 
         jupyter-repo2docker --no-run --debug --user-id 1234 --user-name ${NB_USER} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
+            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
+        fi
+        if [ "$INPUT_ADDITIONAL_TAG" ]; then
+            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
+        fi
     echo "::endgroup::"
-    echo "::set-output name=DEBUG_STATUS::true"
+    echo "::set-output name=PUSH_STATUS::false"
 fi
-

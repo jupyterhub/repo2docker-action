@@ -91,7 +91,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
         DOCKER_REGISTRY: "containers.pkg.github.com"
 
-  debug-mode-no-registry:
+  no-push-no-registry:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
@@ -104,27 +104,27 @@ jobs:
       if: github.event_name == 'push'
       uses: actions/checkout@v2
       
-    - name: debug mode
+    - name: no push
       uses: ./
       with:
-        DEBUG: 'true'
+        NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
     
-    - name: debug w/additional tag
+    - name: no push w/additional tag
       uses: ./
       with:
-        DEBUG: 'true'
+        NO_PUSH: 'true'
         ADDITIONAL_TAG: 'additional-tag-test'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-    - name: debug without latest tag
+    - name: no push without latest tag
       uses: ./
       with:
-        DEBUG: 'true'
+        NO_PUSH: 'true'
         LATEST_TAG_OFF: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-  debug-mode-registry:
+  no-push-ghcr:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
@@ -137,19 +137,19 @@ jobs:
       if: github.event_name == 'push'
       uses: actions/checkout@v2
 
-    - name: gcr - debug
+    - name: ghcr - debug
       uses: ./
       with:
         DOCKER_USERNAME: "hamelsmu"
         DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
-        DEBUG: 'true'
+        NO_PUSH: 'true'
         DOCKER_REGISTRY: "containers.pkg.github.com"
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-    - name: push to dockerhub debug mode
+    - name: no push w/ args
       uses: ./
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DEBUG: 'true'
+        NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
