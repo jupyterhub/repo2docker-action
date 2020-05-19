@@ -62,7 +62,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::set-output name=PUSH_STATUS::true"
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --debug --user-id 1234 --user-name ${NB_USER} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --debug --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
