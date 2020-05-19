@@ -143,4 +143,4 @@ on: [pull_request]
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 ```
 
-_When you specify a value for the `DEBUG` parameter, you can omit the otherwhise mandatory parameters `DOCKER_USERNAME` and `DOCKER_PASSWORD` as no images are pushed to a registry in debug mode._
+_When you specify a value for the `NO_PUSH` parameter, you can omit the otherwhise mandatory parameters `DOCKER_USERNAME` and `DOCKER_PASSWORD`._
