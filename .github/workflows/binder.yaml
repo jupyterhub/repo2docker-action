@@ -8,15 +8,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Copy Repository Contents
-      uses: actions/checkout@master
+    - name: checkout repo contents
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
 
-    - name: Comment With Metadata
-      run: |
-        echo "Providing Binder link for PR ${ISSUE_NUMBER}"
-        bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch"
+    - name: comment on PR
+      uses: actions/github-script@v1
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          var BRANCH_NAME = process.env.BRANCH_NAME;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${context.repo.owner}/${context.repo.repo}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch'
+          }) 
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ISSUE_NUMBER: ${{ github.event.number }}
         BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+
+    # - name: Comment With Metadata
+    #   run: |
+    #     echo "Providing Binder link for PR ${ISSUE_NUMBER}"
+    #     bash action_files/pr_comment.sh "[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${GITHUB_REPOSITORY}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch"
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     ISSUE_NUMBER: ${{ github.event.number }}
+    #     BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
 
