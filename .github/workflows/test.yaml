@@ -1,5 +1,5 @@
 name: Test
-on: [push, pull_request]
+on: [pull_request]
 
 
 jobs:
@@ -57,12 +57,6 @@ jobs:
     - name: Checkout
       if: github.event_name == 'push'
       uses: actions/checkout@v2
-      
-    - name: push to dockerhub
-      uses: ./
-      with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   
     - name: push to dockerhub w/additional tag
       uses: ./
@@ -109,13 +103,6 @@ jobs:
       with:
         NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
-    
-    - name: no push w/additional tag
-      uses: ./
-      with:
-        NO_PUSH: 'true'
-        ADDITIONAL_TAG: 'additional-tag-test'
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
 
     - name: no push without latest tag
       uses: ./
@@ -124,32 +111,3 @@ jobs:
         LATEST_TAG_OFF: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-  no-push-ghcr:
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      if: github.event_name == 'pull_request'
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-  
-    - name: Checkout
-      if: github.event_name == 'push'
-      uses: actions/checkout@v2
-
-    - name: ghcr - debug
-      uses: ./
-      with:
-        DOCKER_USERNAME: "hamelsmu"
-        DOCKER_PASSWORD: ${{ secrets.GCR_PAT }}
-        NO_PUSH: 'true'
-        DOCKER_REGISTRY: "containers.pkg.github.com"
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-
-    - name: no push w/ args
-      uses: ./
-      with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NO_PUSH: 'true'
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
