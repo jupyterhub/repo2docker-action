@@ -25,6 +25,13 @@ inputs:
   NO_PUSH:
     description: Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.
     require: false
+  BINDER_CACHE:
+    description: Setting this variable to any value will add the file binder/Dockerfile that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter NO_PUSH is set.  This is disabled by default.
+    require: false
+  MYBINDERORG_CACHE:
+    description: Does the same thing as the parameter `BINDER_CACHE`, except also checks that the docker image is publicly visible, which is required by mybinder.org to pull your image.
+  PUBLIC_REGISTRY_CHECK:
+    description: Setting this variable to any value will validate that the image pushed to the registry is publicly visible.  This is automatically enabled when the parameter `MYBINDERORG_CACHE` is set.
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.

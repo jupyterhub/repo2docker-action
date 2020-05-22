@@ -60,9 +60,20 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
     echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
     echo "::set-output name=PUSH_STATUS::true"
+
+    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ] || [ "$INPUT_MYBINDERORG_CACHE" ]; then
+        docker logout
+        if docker pull  $SHA_NAME &>/dev/null; then
+            echo "Verified that $SHA_NAME is publicly visible."
+        else
+            echo "Could not pull docker image: $SHA_NAME.  Make sure this image is public before proceeding."
+            exit 1
+        fi
+    fi
+
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --debug --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
@@ -71,4 +82,14 @@ else
         fi
     echo "::endgroup::"
     echo "::set-output name=PUSH_STATUS::false"
+fi
+
+
+if [ "$INPUT_BINDER_CACHE" ] || [ "$INPUT_MYBINDERORG_CACHE" ]; then
+    python binder_cache.py "$SHA_NAME"
+    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    git config --global user.name "github-actions[bot]"
+    git add binder/Dockerfile
+    git commit -m'update registry tagname'
+    git push -f
 fi

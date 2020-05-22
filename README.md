@@ -66,6 +66,9 @@ jobs:
     An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant [GitHub commit SHA](https://help.github.com/en/github/getting-started-with-github/github-glossary#commit).
 - `NO_PUSH`:
     Setting this variable to any value will prevent any images from being pushed to a registry.  Furthermore, verbose logging will be enabled in this mode.  This is disabled by default.
+- `BINDER_CACHE`:
+    Setting this variable to any value will add the file `binder/Dockerfile` that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter `NO_PUSH` is set.  This is disabled by default.
+    - Note: This Action assumes you are not explicitly using Binder to build your dependencies (You are using this Action to build your dependencies).  If a directory `binder` with other files other than `Dockerfile` or a directory named `.binder/` is detected, this step will be aborted.  This Action does not support caching images for Binder where dependencies are defined in `binder/Docker` (if you are defining your dependencies this way, you probably don't need this Action).
 
 ## Outputs
 
