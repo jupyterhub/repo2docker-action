@@ -30,8 +30,10 @@ inputs:
     require: false
   MYBINDERORG_CACHE:
     description: Does the same thing as the parameter `BINDER_CACHE`, except also checks that the docker image is publicly visible, which is required by mybinder.org to pull your image.
+    require: false
   PUBLIC_REGISTRY_CHECK:
     description: Setting this variable to any value will validate that the image pushed to the registry is publicly visible.  This is automatically enabled when the parameter `MYBINDERORG_CACHE` is set.
+    require: false
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.
