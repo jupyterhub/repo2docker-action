@@ -37,6 +37,9 @@ inputs:
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.
+branding:
+  color: 'gray-dark'
+  icon: 'package'
 runs:
   using: 'docker'
   image: 'Dockerfile'
