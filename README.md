@@ -158,3 +158,4 @@ on: [pull_request]
 ```
 
 _When you specify a value for the `NO_PUSH` parameter, you can omit the otherwhise mandatory parameters `DOCKER_USERNAME` and `DOCKER_PASSWORD`._
+
