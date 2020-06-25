@@ -8,11 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: checkout pull request branch
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-
     - name: comment on PR with Binder link
       uses: actions/github-script@v1
       with:
