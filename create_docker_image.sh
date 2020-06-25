@@ -33,7 +33,7 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-NB_USER=${NOTEBOOK_USER:-"$GITHUB_ACTOR"}
+NB_USER=${INPUT_NOTEBOOK_USER:-"$GITHUB_ACTOR"}
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
