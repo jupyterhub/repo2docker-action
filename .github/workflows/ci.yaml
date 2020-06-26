@@ -17,5 +17,5 @@ jobs:
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@master
       with:
-        NO_PUSH: true
+        NO_PUSH: "true"
         MYBINDERORG_TAG: ${{ github.event.ref }}
