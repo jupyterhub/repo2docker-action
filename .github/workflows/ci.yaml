@@ -8,8 +8,8 @@ jobs:
     - name: see payload
       run: echo $PAYLOAD
       env:
-        PAYLOAD: ${{ toJSON(github.event) }}
-        
+        PAYLOAD: ${{ github.event }}
+
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
       with:
