@@ -95,13 +95,11 @@ A very popular use case for this Action is to cache builds for [mybidner.org](ht
 
 ### Cache builds on mybinder.org
 
-Proactively build your container on mybinder.org.  In this example the image will only be cached when the pull request is opened but not if the pull request is updated with subsequent commits.
+Proactively build your environment on mybinder.org for any branch.
 
 ```yaml
 name: Binder
-on:
-  pull_request:
-    types: [opened, reopened]
+on: [push]
 
 jobs:
   Create-Binder-Badge:
@@ -111,12 +109,14 @@ jobs:
       uses: machine-learning-apps/repo2docker-action@0.2
       with:
         NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
+        MYBINDERORG_TAG: ${{ github.event.ref }} # This builds on the environment on the branch that was pushed on.
 ```
 
 ### Cache Builds On mybinder.org And Provide A Link
 
 Same example as above, but also comment on a PR with a link to the binder environment.  Commenting on the PR is optional, and is included here for informational purposes only.  In this example the image will only be cached when the pull request is opened but not if the pull request is updated with subsequent commits.
+
+In this example the image will only be cached when the pull request is opened but not if the pull request is updated with subsequent commits.
 
 ```yaml
 name: Binder
@@ -148,7 +148,6 @@ jobs:
           })
       env:
         BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
-
 ```        
 
 ### Use GitHub Actions To Cache The Build For mybinder.org
