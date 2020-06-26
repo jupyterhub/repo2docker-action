@@ -91,7 +91,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 
 ## mybinder.org
 
-A very popular use case for this Action is to cache builds for [mybidner.org](https://mybinder.org/).  If you desire to cache builds for mybinder.org, you must specify the argument `MYBINDERORG_TAG`.  Some examples of doing this are below:
+A very popular use case for this Action is to cache builds for [mybinder.org](https://mybinder.org/).  If you desire to cache builds for mybinder.org, you must specify the argument `MYBINDERORG_TAG`.  Some examples of doing this are below:
 
 ### Cache builds on mybinder.org
 
