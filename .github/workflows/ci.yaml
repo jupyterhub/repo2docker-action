@@ -9,4 +9,4 @@ jobs:
       uses: machine-learning-apps/repo2docker-action@0.2
       with:
         NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
+        MYBINDERORG_TAG: ${{ github.event.ref }}
