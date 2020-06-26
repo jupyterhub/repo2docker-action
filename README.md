@@ -179,7 +179,6 @@ jobs:
 ## Push Repo2Docker Image To DockerHub
 
 ```yaml
-```yaml
 name: Build Notebook Container
 on: [push] # You may want to trigger this Action on other things than a push.
 jobs:
