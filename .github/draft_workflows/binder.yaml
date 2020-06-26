@@ -1,18 +1,17 @@
 name: Binder
 on: 
   pull_request:
-    types: [opened, reopened, edited]
+    types: [opened, reopened]
 
 jobs:
   Create-Binder-Badge:
     runs-on: ubuntu-latest
     steps:
 
-    - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@master
+    - name: checkout pull request branch
+      uses: actions/checkout@v2
       with:
-        NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
+        ref: ${{ github.event.pull_request.head.sha }}
 
     - name: comment on PR with Binder link
       uses: actions/github-script@v1
@@ -28,3 +27,4 @@ jobs:
           }) 
       env:
         BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+        REPO: ${{ github.repository }}
