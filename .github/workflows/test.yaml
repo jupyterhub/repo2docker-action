@@ -110,3 +110,18 @@ jobs:
         LATEST_TAG_OFF: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
+  mybinder-only:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+      
+    - name: no push
+      uses: ./
+      with:
+        NO_PUSH: true
+        MYBINDERORG_TAG: ${{ github.event.ref }}
