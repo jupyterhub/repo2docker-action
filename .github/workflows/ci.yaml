@@ -8,7 +8,12 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-      
+
+    - name: see payload
+      run: echo "$PAY"
+      env:
+        PAY: ${{ toJSON(github.event.ref) }}
+
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@master
       with:
