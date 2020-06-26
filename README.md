@@ -109,7 +109,7 @@ jobs:
       uses: machine-learning-apps/repo2docker-action@0.2
       with:
         NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.ref }} # This builds on the environment on the branch that was pushed on.
+        MYBINDERORG_TAG: ${{ github.event.ref }} # This builds the container on mybinder.org with the branch that was pushed on.
 ```
 
 ### Cache Builds On mybinder.org And Provide A Link
