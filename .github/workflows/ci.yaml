@@ -6,9 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: see payload
-      run: echo $PAYLOAD
+      run: | 
+        echo $PAYLOAD
+        echo $REF
       env:
         PAYLOAD: ${{ github.event }}
+        REF: ${{ github.event.ref }}
 
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
