@@ -110,7 +110,7 @@ jobs:
         LATEST_TAG_OFF: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
-  mybinder-only:
+  mybinder:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:  
