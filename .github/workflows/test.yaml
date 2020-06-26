@@ -115,11 +115,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
-      if: github.event_name == 'pull_request'
       uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-      
+        
     - name: no push
       uses: ./
       with:
