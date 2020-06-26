@@ -95,7 +95,7 @@ A very popular use case for this Action is to cache builds for [mybidner.org](ht
 
 ### Cache builds on mybinder.org
 
-Proactively build your environment on mybinder.org for any branch.
+Proactively build your environment on mybinder.org for any branch.  We recommend [using GitHub Actions to build your image for mybinder.org instead](#use-github-actions-to-cache-the-build-for-mybinder.org) as you get more visibility into the build this way.
 
 ```yaml
 name: Binder
