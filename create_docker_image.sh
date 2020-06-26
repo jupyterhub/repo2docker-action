@@ -103,6 +103,3 @@ fi
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
     ./trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
 fi
-
-
-./trigger_binder.sh: line 8: curl: command not found
