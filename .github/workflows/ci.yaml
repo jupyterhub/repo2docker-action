@@ -2,9 +2,14 @@ name: CI
 on: push
 
 jobs:
-  Create-Binder-Badge:
+  Test-Action:
     runs-on: ubuntu-latest
     steps:
+    - name: see payload
+      run: echo $PAYLOAD
+      env:
+        PAYLOAD: ${{ toJSON(github.event) }}
+        
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
       with:
