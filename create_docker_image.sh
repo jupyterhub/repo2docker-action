@@ -96,6 +96,6 @@ fi
 
 
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
-    check_env "INPUT_BRANCH_NAME"
-    ./trigger_binder.sh https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$BRANCH_NAME
+    check_env "MYBINDERORG_TAG"
+    ./trigger_binder.sh https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$MYBINDERORG_TAG
 fi
