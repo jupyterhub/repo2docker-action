@@ -117,7 +117,7 @@ jobs:
     - name: Checkout PR
       uses: actions/checkout@v2
         
-    - name: no push
+    - name: mybinder
       uses: ./
       with:
         NO_PUSH: true
