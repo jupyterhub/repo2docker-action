@@ -8,10 +8,10 @@ jobs:
     - name: see payload
       run: | 
         echo $PAYLOAD
-        echo $REF
+        echo $REFV
       env:
         PAYLOAD: ${{ github.event }}
-        REF: ${{ github.event.ref }}
+        REFV: ${{ github.event.ref }}
 
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
