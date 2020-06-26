@@ -22,6 +22,11 @@ fi
 
 REPO_NAME=`echo $GITHUB_REPOSITORY | cut -d "/" -f 2`
 
+# Set Docker username to the actor name not provided
+if [ -z "$INPUT_DOCKER_USERNAME" ]; then
+    INPUT_DOCKER_USERNAME="$GITHUB_ACTOR"
+fi
+
 # Set image name to username/repo_name if not provided
 if [ -z "$INPUT_IMAGE_NAME" ]; then
     INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
