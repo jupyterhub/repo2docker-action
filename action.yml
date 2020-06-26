@@ -28,11 +28,11 @@ inputs:
   BINDER_CACHE:
     description: Setting this variable to any value will add the file binder/Dockerfile that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter NO_PUSH is set.  This is disabled by default.
     require: false
-  MYBINDERORG_CACHE:
-    description: Does the same thing as the parameter `BINDER_CACHE`, except also checks that the docker image is publicly visible, which is required by mybinder.org to pull your image.
+  MYBINDERORG_TAG:
+    description: This the Git branch, tag, or commit that you want mybinder.org to proactively build from your repo.  This is useful if you wish to avoid startup time on mybinder.org.  Your repository must be public for this work, as mybinder.org only works on public repositories.
     require: false
   PUBLIC_REGISTRY_CHECK:
-    description: Setting this variable to any value will validate that the image pushed to the registry is publicly visible.  This is automatically enabled when the parameter `MYBINDERORG_CACHE` is set.
+    description: Setting this variable to any value will validate that the image pushed to the registry is publicly visible.
     require: false
 outputs:
   IMAGE_SHA_NAME:

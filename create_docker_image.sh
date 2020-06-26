@@ -61,7 +61,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
     echo "::set-output name=PUSH_STATUS::true"
 
-    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ] || [ "$INPUT_MYBINDERORG_CACHE" ]; then
+    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
         docker logout
         if docker pull  $SHA_NAME &>/dev/null; then
             echo "Verified that $SHA_NAME is publicly visible."
@@ -85,11 +85,17 @@ else
 fi
 
 
-if [ "$INPUT_BINDER_CACHE" ] || [ "$INPUT_MYBINDERORG_CACHE" ]; then
+if [ "$INPUT_BINDER_CACHE" ]; then
     python binder_cache.py "$SHA_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
     git add binder/Dockerfile
     git commit -m'update registry tagname'
     git push -f
+fi
+
+
+if [ "$INPUT_MYBINDERORG_TAG" ]; then
+    check_env "INPUT_BRANCH_NAME"
+    ./trigger_binder.sh https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$BRANCH_NAME
 fi
