@@ -7,10 +7,12 @@ jobs:
     steps:
     - name: see payload
       run: | 
-        echo $PAYLOAD
-        echo $REFV
+        echo ${PAYLOAD}
+        echo "====================="
+        echo ${REFV}
       env:
-        PAYLOAD: ${{ github.event }}
+        PAYLOAD: ${{ toJSON(github.event) }}
+        REFV: ${{ toJSON(github.event.ref) }}
 
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
