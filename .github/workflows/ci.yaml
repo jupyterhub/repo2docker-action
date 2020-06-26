@@ -5,17 +5,9 @@ jobs:
   Test-Action:
     runs-on: ubuntu-latest
     steps:
-    - name: see payload
-      run: | 
-        echo ${PAYLOAD}
-        echo "====================="
-        echo ${REFV}
-      env:
-        PAYLOAD: ${{ toJSON(github.event) }}
-        REFV: ${{ toJSON(github.event.ref) }}
 
     - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }}
