@@ -11,7 +11,6 @@ jobs:
         echo $REFV
       env:
         PAYLOAD: ${{ github.event }}
-        REFV: ${{ github.event.ref }}
 
     - name: cache binder build on mybinder.org
       uses: machine-learning-apps/repo2docker-action@0.2
