@@ -91,11 +91,11 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 
 ## mybinder.org
 
-A very popular use case for this Action is to cache builds for [mybidner.org](https://mybinder.org/).  If you desire to cache builds for mybinder.org, you must specify the argument `MYBINDERORG_TAG`.  Some examples of doing this are below:
+A very popular use case for this Action is to cache builds for [mybinder.org](https://mybinder.org/).  If you desire to cache builds for mybinder.org, you must specify the argument `MYBINDERORG_TAG`.  Some examples of doing this are below:
 
 ### Cache builds on mybinder.org
 
-Proactively build your environment on mybinder.org for any branch.  We recommend [using GitHub Actions to build your image for mybinder.org instead](#use-github-actions-to-cache-the-build-for-mybinder.org) as you get more visibility into the build this way.
+Proactively build your environment on mybinder.org for any branch.  We recommend [using GitHub Actions to build your image for mybinder.org instead](https://github.com/machine-learning-apps/repo2docker-action#use-github-actions-to-cache-the-build-for-mybinderorg) as you get more visibility into the build this way.
 
 ```yaml
 name: Binder
@@ -178,7 +178,6 @@ jobs:
 
 ## Push Repo2Docker Image To DockerHub
 
-```yaml
 ```yaml
 name: Build Notebook Container
 on: [push] # You may want to trigger this Action on other things than a push.
