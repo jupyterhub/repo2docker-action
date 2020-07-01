@@ -123,8 +123,12 @@ jobs:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }}
 
+  binder-actions:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:  
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: ./
       with:
         IMAGE_NAME: "hamelsmu/repo2docker-test"
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
