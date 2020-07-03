@@ -23,7 +23,7 @@ else:
     dockerfile = p/'Dockerfile'
     if dockerfile.exists():
         contents = dockerfile.read_text().split('\n')
-        if (len(contents) != 2) or (contents[0] != first_line):
+        if (len(contents) != 2) or (contents[0] != FIRST_LINE):
             warnings.warn('You have manually edited binder/Dockerfile. This file will be overwritten.', UserWarning)
     
     dockerfile.write_text(f'{FIRST_LINE}\nFROM {image_name}')
