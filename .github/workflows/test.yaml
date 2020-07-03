@@ -138,3 +138,36 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         BINDER_CACHE: true
         PUBLIC_REGISTRY_CHECK: true
+        
+
+  binder-actions-version:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      uses: actions/checkout@v2
+      
+    - name: update jupyter dependencies with repo2docker
+      uses: machine-learning-apps/repo2docker-action@0.2
+      with:
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        BINDER_CACHE: true
+        PUBLIC_REGISTRY_CHECK: true
+        
+  binder-actions-master:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Checkout PR
+      uses: actions/checkout@v2
+      
+    - name: update jupyter dependencies with repo2docker
+      uses: machine-learning-apps/repo2docker-action@master
+      with:
+        IMAGE_NAME: "hamelsmu/repo2docker-test"
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        BINDER_CACHE: true
+        PUBLIC_REGISTRY_CHECK: true
