@@ -96,7 +96,9 @@ if [ "$INPUT_BINDER_CACHE" ]; then
     git config --global user.name "github-actions[bot]"
     git add binder/Dockerfile
     git commit -m'update registry tagname'
-    git push -f
+    if [ ! "$INPUT_NO_GIT_PUSH" ]; then
+        git push -f
+    fi
 fi
 
 
