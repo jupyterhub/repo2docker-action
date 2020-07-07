@@ -91,7 +91,7 @@ fi
 
 
 if [ "$INPUT_BINDER_CACHE" ]; then
-    python binder_cache.py "$SHA_NAME"
+    python /binder_cache.py "$SHA_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
     git add binder/Dockerfile
