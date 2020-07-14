@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 ## Optional Inputs
 
 - `NOTEBOOK_USER`:
-    description: username of the primary user in the image. If this is not specified, the username in the default environment variable [GITHUB_ACTOR](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables) is used.
+    description: username of the primary user in the image. If this is not specified, the username in the default environment variable [GITHUB_ACTOR](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables) is used.  **NOTE**: This value is overriden with `jovyan` if the parameters `BINDER_CACHE` or `MYBINDERORG_TAG` are provided.
 - `IMAGE_NAME`:
     name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to <DOCKER_USERNAME/GITHUB_REPOSITORY_NAME>
 - `DOCKER_REGISTRY`:
@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }} # This builds the container on mybinder.org with the branch that was pushed on.
@@ -129,7 +129,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
@@ -168,7 +168,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -190,7 +190,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -210,7 +210,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with: # make sure username & password matches your registry
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -233,7 +233,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -257,7 +257,7 @@ on: [pull_request]
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: test build
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"

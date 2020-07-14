@@ -39,6 +39,9 @@ fi
 
 # Set username
 NB_USER=${INPUT_NOTEBOOK_USER:-"$GITHUB_ACTOR"}
+if [-z "$INPUT_NOTEBOOK_USER"] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; then
+    NB_USER="jovyan"
+fi
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
@@ -78,7 +81,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
@@ -86,11 +89,12 @@ else
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
         fi
     echo "::endgroup::"
-    echo "::set-output name=PUSH_STATUS::false"
+    echo "::set-output name=PUSH_STATUS::false"/
 fi
 
 
 if [ "$INPUT_BINDER_CACHE" ]; then
+    echo "::group::Commit Local Dockerfile For Binder Cache" 
     python /binder_cache.py "$SHA_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
@@ -99,9 +103,12 @@ if [ "$INPUT_BINDER_CACHE" ]; then
     if [ ! "$INPUT_NO_GIT_PUSH" ]; then
         git push -f
     fi
+    echo "::endgroup::"
 fi
 
 
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
+    echo "::group::Triggering Image Build on mybinder.org" 
     ./trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
+    echo "::endgroup::"
 fi
