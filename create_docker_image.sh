@@ -55,6 +55,15 @@ SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
 echo "::endgroup::"
 
+# Print variables for debugging
+echo "::group::Show Variables"
+    echo "NB_USER: ${NB_USER}"
+    echo "SHA_NAME: ${SHA_NAME}"
+    echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
+    echo "PWD: ${PWD}"
+echo "::endgroup::"
+
+
 if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::group::Build and Push ${SHA_NAME}"
         
@@ -83,9 +92,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
             fi
         fi
 
-        R2D_CMD="jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}"
-        echo "Running Command ${R2D_CMD}"
-        `$R2D_CMD`
+        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
