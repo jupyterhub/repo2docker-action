@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 ## Optional Inputs
 
 - `NOTEBOOK_USER`:
-    description: username of the primary user in the image. If this is not specified, the username in the default environment variable [GITHUB_ACTOR](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables) is used.
+    description: username of the primary user in the image. If this is not specified, this is set to `joyvan`.  **NOTE**: This value is also overriden with `jovyan` if the parameters `BINDER_CACHE` or `MYBINDERORG_TAG` are provided.
 - `IMAGE_NAME`:
     name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to <DOCKER_USERNAME/GITHUB_REPOSITORY_NAME>
 - `DOCKER_REGISTRY`:
@@ -68,7 +68,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
     Setting this variable to any value will prevent any images from being pushed to a registry.  Furthermore, verbose logging will be enabled in this mode.  This is disabled by default.
 - `BINDER_CACHE`:
     Setting this variable to any value will add the file `binder/Dockerfile` that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter `NO_PUSH` is set.  This is disabled by default.
-    - Note: This Action assumes you are not explicitly using Binder to build your dependencies (You are using this Action to build your dependencies).  If a directory `binder` with other files other than `Dockerfile` or a directory named `.binder/` is detected, this step will be aborted.  This Action does not support caching images for Binder where dependencies are defined in `binder/Docker` (if you are defining your dependencies this way, you probably don't need this Action).
+    - Note: This Action assumes you are not explicitly using Binder to build your dependencies (You are using this Action to build your dependencies).  If a directory `binder` with other files other than `Dockerfile` or a directory named `.binder/` is detected, this step will be aborted.  This Action does not support caching images for Binder where dependencies are defined in `binder/Dockerfile` (if you are defining your dependencies this way, you probably don't need this Action).
 
       When this parameter is supplied, this Action will add/override `binder/Dockerfile` in the branch checked out in the Actions runner:
       ```dockerfile
@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }} # This builds the container on mybinder.org with the branch that was pushed on.
@@ -129,7 +129,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
@@ -168,7 +168,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -190,7 +190,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -210,7 +210,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with: # make sure username & password matches your registry
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -233,7 +233,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -257,7 +257,7 @@ on: [pull_request]
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: test build
-      uses: machine-learning-apps/repo2docker-action@0.2
+      uses: machine-learning-apps/repo2docker-action@master
       with:
         NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"

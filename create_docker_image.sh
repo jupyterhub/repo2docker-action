@@ -38,7 +38,14 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-NB_USER=${INPUT_NOTEBOOK_USER:-"$GITHUB_ACTOR"}
+
+if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; 
+    then
+        NB_USER="jovyan"
+
+    else
+        NB_USER="${INPUT_NOTEBOOK_USER}"
+fi
 
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
@@ -48,9 +55,53 @@ SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
 echo "::endgroup::"
 
+# Print variables for debugging
+echo "::group::Show Variables"
+    echo "NB_USER: ${NB_USER}"
+    echo "SHA_NAME: ${SHA_NAME}"
+    echo "PWD: ${PWD}"
+    echo "INPUT_NOTEBOOK_USER: ${INPUT_NOTEBOOK_USER}"
+    echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
+    echo "DOCKER_REGISTRY": ${INPUT_DOCKER_REGISTRY}
+    echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
+    echo "INPUT_BINDER_CACHE: ${INPUT_BINDER_CACHE}"
+    echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
+    echo "INPUT_ADDITIONAL_TAG: ${INPUT_ADDITIONAL_TAG}"
+    echo "INPUT_NO_PUSH: ${INPUT_NO_PUSH}"
+    echo "INPUT_BINDER_CACHE: ${INPUT_BINDER_CACHE}"
+    echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
+    echo "INPUT_PUBLIC_REGISTRY_CHECK: ${INPUT_PUBLIC_REGISTRY_CHECK}"
+echo "::endgroup::"
+
 if [ -z "$INPUT_NO_PUSH" ]; then
-    echo "::group::Build and Push ${SHA_NAME}" 
-        jupyter-repo2docker --push --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+    echo "::group::Build and Push ${SHA_NAME}"
+        
+
+        # If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
+        if [ "$INPUT_BINDER_CACHE" ]; then
+            GENERIC_MSG="This Action assumes you are not explicitly using Binder to build your dependencies."
+
+            # Exit if .binder directory is present
+            if [ -d ".binder" ]; then
+                    echo "Found directory .binder ${GENERIC_MSG} The presence of a directory named .binder indicates otherwise.  Aborting this step.";
+                    exit 1;
+            fi
+
+            # Delete binder directory if it exists and only contains Dockerfile, so repo2docker can do a fresh build.
+            if [ -d "binder" ]; then
+                # if /binder has files other than Dockerfile, exit with status code 1, else remove the binder folder.
+                num_files=`ls binder | grep -v 'Dockerfile' | wc -l`
+                if [[ "$num" -gt 0 ]]; 
+                    then
+                        echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
+                        exit 1;
+                    else
+                        rm -rf binder
+                fi
+            fi
+        fi
+
+        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
@@ -78,7 +129,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
@@ -86,11 +137,12 @@ else
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
         fi
     echo "::endgroup::"
-    echo "::set-output name=PUSH_STATUS::false"
+    echo "::set-output name=PUSH_STATUS::false"/
 fi
 
 
 if [ "$INPUT_BINDER_CACHE" ]; then
+    echo "::group::Commit Local Dockerfile For Binder Cache" 
     python /binder_cache.py "$SHA_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
@@ -99,9 +151,12 @@ if [ "$INPUT_BINDER_CACHE" ]; then
     if [ ! "$INPUT_NO_GIT_PUSH" ]; then
         git push -f
     fi
+    echo "::endgroup::"
 fi
 
 
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
+    echo "::group::Triggering Image Build on mybinder.org" 
     ./trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
+    echo "::endgroup::"
 fi
