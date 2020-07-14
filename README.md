@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 ## Optional Inputs
 
 - `NOTEBOOK_USER`:
-    description: username of the primary user in the image. If this is not specified, the username in the default environment variable [GITHUB_ACTOR](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables) is used.  **NOTE**: This value is overriden with `jovyan` if the parameters `BINDER_CACHE` or `MYBINDERORG_TAG` are provided.
+    description: username of the primary user in the image. If this is not specified, this is set to `joyvan`.  **NOTE**: This value is also overriden with `jovyan` if the parameters `BINDER_CACHE` or `MYBINDERORG_TAG` are provided.
 - `IMAGE_NAME`:
     name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to <DOCKER_USERNAME/GITHUB_REPOSITORY_NAME>
 - `DOCKER_REGISTRY`:

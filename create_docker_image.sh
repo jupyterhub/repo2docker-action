@@ -38,7 +38,7 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-NB_USER=${INPUT_NOTEBOOK_USER:-"$GITHUB_ACTOR"}
+NB_USER="${INPUT_NOTEBOOK_USER}"
 if [-z "$INPUT_NOTEBOOK_USER"] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; then
     NB_USER="jovyan"
 fi
