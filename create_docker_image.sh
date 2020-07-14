@@ -52,7 +52,33 @@ docker pull "${INPUT_IMAGE_NAME}" 2> /dev/null || true
 echo "::endgroup::"
 
 if [ -z "$INPUT_NO_PUSH" ]; then
-    echo "::group::Build and Push ${SHA_NAME}" 
+    echo "::group::Build and Push ${SHA_NAME}"
+        
+
+        # If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
+        if [ "$INPUT_BINDER_CACHE" ]; then
+            GENERIC_MSG="This Action assumes you are not explicitly using Binder to build your dependencies."
+
+            # Exit if .binder directory is present
+            if [ -d ".binder" ]; then
+                    echo "Found directory .binder ${GENERIC_MSG} The presence of a directory named .binder indicates otherwise.  Aborting this step.";
+                    exit 1;
+            fi
+
+            # Delete binder directory if it exists and only contains Dockerfile, so repo2docker can do a fresh build.
+            if [ -d "binder" ]; then
+                # if /binder has files other than Dockerfile, exit with status code 1, else remove the binder folder.
+                num_files=`ls binder | grep -v 'Dockerfile' | wc -l`
+                if [[ "$num" -gt 0 ]]; 
+                then
+                    echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
+                    exit 1;
+                else
+                    rm -rf binder
+                fi
+            fi
+        fi
+
         jupyter-repo2docker --push --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
