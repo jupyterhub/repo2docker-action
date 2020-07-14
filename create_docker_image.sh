@@ -38,9 +38,13 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-NB_USER="${INPUT_NOTEBOOK_USER}"
-if [-z "$INPUT_NOTEBOOK_USER"] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; then
-    NB_USER="jovyan"
+
+if [-z "$INPUT_NOTEBOOK_USER"] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; 
+    then
+        NB_USER="jovyan"
+
+    else
+        NB_USER="${INPUT_NOTEBOOK_USER}"
 fi
 
 # Set Local Variables
@@ -70,16 +74,18 @@ if [ -z "$INPUT_NO_PUSH" ]; then
                 # if /binder has files other than Dockerfile, exit with status code 1, else remove the binder folder.
                 num_files=`ls binder | grep -v 'Dockerfile' | wc -l`
                 if [[ "$num" -gt 0 ]]; 
-                then
-                    echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
-                    exit 1;
-                else
-                    rm -rf binder
+                    then
+                        echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
+                        exit 1;
+                    else
+                        rm -rf binder
                 fi
             fi
         fi
 
-        jupyter-repo2docker --push --no-run --user-id 1234 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        R2D_CMD="jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}"
+        echo "Running Command ${R2D_CMD}"
+        `$R2D_CMD`
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
