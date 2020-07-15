@@ -20,6 +20,7 @@
 	- [Push Image To A Registry Other Than DockerHub](#push-image-to-a-registry-other-than-dockerhub)
 	- [Change Image Name](#change-image-name)
 	- [Test Image Build](#test-image-build)
+- [Contributing](#contributing-to-repo2docker-action)
 
 <!-- /TOC -->
 
@@ -268,3 +269,7 @@ on: [pull_request]
 ```
 
 _When you specify a value for the `NO_PUSH` parameter, you can omit the otherwhise mandatory parameters `DOCKER_USERNAME` and `DOCKER_PASSWORD`._
+
+# Contributing To repo2docker-action
+
+See the [Contributing Guide](./CONTRIBUTING.md).
