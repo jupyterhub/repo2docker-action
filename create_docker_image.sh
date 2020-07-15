@@ -157,6 +157,6 @@ fi
 
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
     echo "::group::Triggering Image Build on mybinder.org" 
-    ./trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
+    /trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
     echo "::endgroup::"
 fi
