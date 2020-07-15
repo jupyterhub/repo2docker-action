@@ -1,5 +1,6 @@
 # <a href="https://github.com/jupyter/repo2docker"><img src="https://raw.githubusercontent.com/jupyter/repo2docker/3fa7444fca6ae2b51e590cbc9d83baf92738ca2a/docs/source/_static/images/repo2docker.png" height="40px" /></a>  repo2docker GitHub Action
 
+
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [What Can I Do With This Action?](#what-can-i-do-with-this-action)
@@ -11,13 +12,15 @@
 	- [mybinder.org](#mybinderorg)
 		- [Cache builds on mybinder.org](#cache-builds-on-mybinderorg)
 		- [Cache Builds On mybinder.org And Provide A Link](#cache-builds-on-mybinderorg-and-provide-a-link)
-		- [Use GitHub Actions To Cache The Build For mybinder.org](#use-github-actions-to-cache-the-build-for-mybinderorg)
+		- [Use GitHub Actions To Cache The Build For BinderHub](#use-github-actions-to-cache-the-build-for-binderhub)
 	- [Push Repo2Docker Image To DockerHub](#push-repo2docker-image-to-dockerhub)
 	- [Push Image To A Registry Other Than DockerHub](#push-image-to-a-registry-other-than-dockerhub)
 	- [Change Image Name](#change-image-name)
 	- [Test Image Build](#test-image-build)
 
 <!-- /TOC -->
+
+
 
 
 Trigger [repo2docker](https://github.com/jupyter/repo2docker) to build a Jupyter enabled Docker image from your GitHub repository and push this image to a Docker registry of your choice.  This will automatically attempt to build an environment from configuration files found in your repository in the [manner described here](https://repo2docker.readthedocs.io/en/latest/usage.html#where-to-put-configuration-files).
@@ -95,7 +98,7 @@ A very popular use case for this Action is to cache builds for [mybinder.org](ht
 
 ### Cache builds on mybinder.org
 
-Proactively build your environment on mybinder.org for any branch.  We recommend [using GitHub Actions to build your image for mybinder.org instead](https://github.com/machine-learning-apps/repo2docker-action#use-github-actions-to-cache-the-build-for-mybinderorg) as you get more visibility into the build this way.
+Proactively build your environment on mybinder.org for any branch.  Alternatively, you can use [using GitHub Actions to build an image for BindHub generally](https://github.com/machine-learning-apps/repo2docker-action#use-github-actions-to-cache-the-build-for-binderhub), including mybinder.org.
 
 ```yaml
 name: Binder
@@ -150,9 +153,9 @@ jobs:
         BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
 ```        
 
-### Use GitHub Actions To Cache The Build For mybinder.org
+### Use GitHub Actions To Cache The Build For BinderHub
 
-Instead of forcing mybinder.org to cache your builds, you can optionally build an Docker image with GitHub Actions and push that to a Docker registry, so that mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.
+Instead of forcing mybinder.org to cache your builds, you can optionally build an Docker image with GitHub Actions and push that to a Docker registry, so that any BinderHub instance, including mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder.org like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.
 
 In this case, we set `BINDER_CACHE` and `PUBLIC_REGISTRY_CHECK` to `true` because mybinder.org only works with publicly visible Docker Images.
 
