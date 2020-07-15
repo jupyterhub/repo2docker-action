@@ -108,7 +108,7 @@ name: Binder
 on: [push]
 
 jobs:
-  Create-Binder-Badge:
+  Create-Binder-Cache:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
@@ -158,7 +158,7 @@ jobs:
 
 ### Use GitHub Actions To Cache The Build For BinderHub
 
-Instead of forcing mybinder.org to cache your builds, you can optionally build an Docker image with GitHub Actions and push that to a Docker registry, so that any BinderHub instance, including mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder.org like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.
+Instead of forcing mybinder.org to cache your builds, you can optionally build an Docker image with GitHub Actions and push that to a Docker registry, so that any [BinderHub](https://binderhub.readthedocs.io/en/latest/) instance, including mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder.org like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.
 
 In this case, we set `BINDER_CACHE` and `PUBLIC_REGISTRY_CHECK` to `true` because mybinder.org only works with publicly visible Docker Images.
 
