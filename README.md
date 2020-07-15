@@ -108,7 +108,7 @@ name: Binder
 on: [push]
 
 jobs:
-  Create-Binder-Cache:
+  Create-MyBinderOrg-Cache:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
