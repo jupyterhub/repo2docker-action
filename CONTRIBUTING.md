@@ -86,6 +86,8 @@ Per the [Actions docs](https://docs.github.com/en/actions/creating-actions/metad
 
 > When you specify an input to an action in a workflow file or use a default input value, GitHub creates an environment variable for the input with the name INPUT_<VARIABLE_NAME>. The environment variable created converts input names to uppercase letters and replaces spaces with _ characters.
 
+Finally, you cannot completely replicate GitHub Actions locally and it might be helpful to interactively debug Actions in the context that are created and run.  Forking the repo and using [this debugging action](https://github.com/marketplace/actions/debugging-with-tmate) can be very useful for this purposes.
+
 # Resources For Getting Started With GitHub Actions
 
 - [Creating GitHub Actions - Official Documentation](https://docs.github.com/en/actions/creating-actions)
