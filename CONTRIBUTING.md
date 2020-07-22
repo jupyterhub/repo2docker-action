@@ -1,6 +1,6 @@
 # Contributing Guide
 
-# Project Jupyter Contributing Guidelines
+## Project Jupyter Contributing Guidelines
 
 This project is also governed by the [Project Jupyter Contributing Guidelines](https://jupyter.readthedocs.io/en/latest/contributing/content-contributor.html).  In the case of any conflicts between what is written here and the Jupyter Contributing Guidelines the Jupyter guidelines will control.
 
@@ -97,4 +97,3 @@ Finally, you cannot completely replicate GitHub Actions locally and it might be 
 - [Creating GitHub Actions - Official Documentation](https://docs.github.com/en/actions/creating-actions)
 - [Live Demo: Actions For Data Science](https://youtu.be/S-kn4mmlxFU)
 - [Blog Post re:Actions For Data Scientists](https://fastpages.fast.ai/actions/markdown/2020/03/06/fastpages-actions.html)
-
