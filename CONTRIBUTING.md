@@ -1,5 +1,9 @@
 # Contributing Guide
 
+## Project Jupyter Contributing Guidelines
+
+This project is also governed by the [Project Jupyter Contributing Guidelines](https://jupyter.readthedocs.io/en/latest/contributing/content-contributor.html).  In the case of any conflicts between what is written here and the Jupyter Contributing Guidelines the Jupyter guidelines will control.
+
 _shamlessly borrowed many of these guidelines from [repo2docker](https://repo2docker.readthedocs.io/en/latest/contributing/contributing.html#types-of-contribution)_
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
