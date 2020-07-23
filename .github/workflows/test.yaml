@@ -1,58 +1,35 @@
 name: Test
-on: [pull_request, push]
+on: [pull_request]
 
 jobs:    
   imagename:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout PR
-      if: github.event_name == 'pull_request'
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-  
+    steps:  
     - name: Checkout
-      if: github.event_name == 'push'
       uses: actions/checkout@v2
       
     - name: push to dockerhub
       uses: ./
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
+        NO_PUSH: true
 
   no-imagename:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
-      if: github.event_name == 'pull_request'
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-  
-    - name: Checkout
-      if: github.event_name == 'push'
       uses: actions/checkout@v2
   
     - name: push to dockerhub w/additional tag
       uses: ./
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         ADDITIONAL_TAG: 'test-additional-tag'
+        NO_PUSH: true
 
   no-push-no-registry:
     runs-on: ubuntu-latest
     steps:  
-    - name: Checkout PR
-      if: github.event_name == 'pull_request'
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-  
     - name: Checkout
-      if: github.event_name == 'push'
       uses: actions/checkout@v2
       
     - name: no push
@@ -69,7 +46,6 @@ jobs:
         IMAGE_NAME: "hamelsmu/repo2docker-test"
 
   mybinder:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout PR
@@ -79,55 +55,5 @@ jobs:
       uses: ./
       with:
         NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.ref }}
+        MYBINDERORG_TAG: ${{ github.sha }}
 
-  binder-actions:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
-      
-    - name: update jupyter dependencies with repo2docker
-      uses: ./
-      with:
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        BINDER_CACHE: true
-        PUBLIC_REGISTRY_CHECK: true
-        NO_GIT_PUSH: true
-        
-  binder-actions-version:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
-      
-    - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@0.2
-      with:
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        BINDER_CACHE: true
-        PUBLIC_REGISTRY_CHECK: true
-        NO_GIT_PUSH: true
-        
-  binder-actions-master:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
-      
-    - name: update jupyter dependencies with repo2docker
-      uses: machine-learning-apps/repo2docker-action@master
-      with:
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        BINDER_CACHE: true
-        PUBLIC_REGISTRY_CHECK: true
-        NO_GIT_PUSH: true
