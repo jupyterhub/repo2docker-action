@@ -11,9 +11,8 @@ jobs:
     - name: push to dockerhub
       uses: ./
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         IMAGE_NAME: "hamelsmu/repo2docker-test"
+        NO_PUSH: true
 
   no-imagename:
     runs-on: ubuntu-latest
@@ -27,12 +26,12 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         ADDITIONAL_TAG: 'test-additional-tag'
+        NO_PUSH: true
 
   no-push-no-registry:
     runs-on: ubuntu-latest
     steps:  
     - name: Checkout
-      if: github.event_name == 'push'
       uses: actions/checkout@v2
       
     - name: no push
@@ -60,19 +59,3 @@ jobs:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.sha }}
 
-  binder-actions:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
-      
-    - name: update jupyter dependencies with repo2docker
-      uses: ./
-      with:
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        BINDER_CACHE: true
-        PUBLIC_REGISTRY_CHECK: true
-        NO_GIT_PUSH: true
