@@ -1,9 +1,0 @@
-{
-	"name": "Test Jupyter Notebook",
-    "forwardPorts": 8888,
-    "image": "hamelsmu/repo2docker-test",
-    "extensions": ["ms-python.python"],
-    "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-    "postCreateCommand_notes": "jupyter lab --no-browser --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True --ip 0.0.0.0",
-    "remoteUser": "hamelsmu"
-}
