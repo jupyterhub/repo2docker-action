@@ -8,12 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: cache binder build on mybinder.org
-      uses: machine-learning-apps/repo2docker-action@master
-      with:
-        NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
-
     - name: comment on PR with Binder link
       if: github.event == 'pull_request'
       uses: actions/github-script@v1
