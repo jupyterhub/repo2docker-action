@@ -23,8 +23,6 @@ jobs:
     - name: push to dockerhub w/additional tag
       uses: ./
       with:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         ADDITIONAL_TAG: 'test-additional-tag'
         NO_PUSH: true
 
