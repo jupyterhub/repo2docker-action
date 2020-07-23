@@ -12,7 +12,8 @@ jobs:
       uses: ./
       with:
         IMAGE_NAME: "hamelsmu/repo2docker-test"
-        NO_PUSH: true
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   no-imagename:
     runs-on: ubuntu-latest
@@ -24,7 +25,8 @@ jobs:
       uses: ./
       with:
         ADDITIONAL_TAG: 'test-additional-tag'
-        NO_PUSH: true
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   no-push-no-registry:
     runs-on: ubuntu-latest
