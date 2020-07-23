@@ -84,7 +84,7 @@ To develop & test repo2docker-action locally, you need:
 3. Some knowledge of git
 4. A recent version of Docker Community Edition, and familiarity with Docker
 
-You can run the Action locally by editing and running [bootstrap.sh](./bootstrap.sh).  You will have to change and set environment variables to supply the various inputs to this Action.  Note that the various input parameters described in the [API Reference Section of the README](https://github.com/machine-learning-apps/repo2docker-action#api-reference), must be prepended by `INPUT_` as an environment variable for the local docker container.  For example, to supply the input `NOTEBOOK_USER` you would pass the environment variable `INPUT_NOTEBOOK_USER` as an environment variable into the container at runtime.  This is to emulate what happens in GitHub Actions.
+You can run the Action locally by editing and running [bootstrap.sh](./bootstrap.sh).  You will have to change and set environment variables to supply the various inputs to this Action.  Note that the various input parameters described in the [API Reference Section of the README](https://github.com/jupyterhub/repo2docker-action#api-reference), must be prepended by `INPUT_` as an environment variable for the local docker container.  For example, to supply the input `NOTEBOOK_USER` you would pass the environment variable `INPUT_NOTEBOOK_USER` as an environment variable into the container at runtime.  This is to emulate what happens in GitHub Actions.
 
 Per the [Actions docs](https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputs):
 
