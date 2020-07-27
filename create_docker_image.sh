@@ -30,6 +30,8 @@ fi
 # Set image name to username/repo_name if not provided
 if [ -z "$INPUT_IMAGE_NAME" ]; then
     INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
+    # Lower-case
+    INPUT_IMAGE_NAME="${INPUT_IMAGE_NAME,,}"
 fi
 
 # Prepend image name with registry if it is supplied
