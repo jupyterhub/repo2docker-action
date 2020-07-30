@@ -221,7 +221,7 @@ jobs:
       with: # make sure username & password matches your registry
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_REGISTRY: "containers.pkg.github.com"
+        DOCKER_REGISTRY: "docker.pkg.github.com"
 ```
 
 ## Change Image Name
