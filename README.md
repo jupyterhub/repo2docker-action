@@ -167,6 +167,8 @@ on: push
 
 jobs:
   binder:
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout Code
       uses: actions/checkout@v2
       with:
