@@ -120,13 +120,15 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::set-output name=PUSH_STATUS::true"
 
     if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
+        echo "::group::Verify That Image Is Public"
         docker logout
-        if docker pull  $SHA_NAME &>/dev/null; then
+        if docker pull $SHA_NAME; then
             echo "Verified that $SHA_NAME is publicly visible."
         else
             echo "Could not pull docker image: $SHA_NAME.  Make sure this image is public before proceeding."
             exit 1
         fi
+        echo "::endgroup::"
     fi
 
 else
