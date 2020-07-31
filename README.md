@@ -256,7 +256,7 @@ You might want to only test the image build withtout pusing to a registry, for e
 ```yaml
 name: Build Notebook Container
 on: [pull_request]
-
+jobs:
   build-image-without-pushing:
     runs-on: ubuntu-latest
     steps:  
