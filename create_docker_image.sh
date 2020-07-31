@@ -151,7 +151,11 @@ if [ "$INPUT_BINDER_CACHE" ]; then
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
     git add binder/Dockerfile
-    git commit -m'update registry tagname'
+    if [ "$INPUT_COMMIT_MSG" ]; then
+        git commit -m"${INPUT_COMMIT_MSG}"
+    else
+        git commit -m'Update image tag'
+    fi
     if [ ! "$INPUT_NO_GIT_PUSH" ]; then
         git push -f
     fi

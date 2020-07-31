@@ -28,6 +28,10 @@ inputs:
   BINDER_CACHE:
     description: Setting this variable to any value will add the file binder/Dockerfile that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter NO_PUSH is set.  This is disabled by default.
     require: false
+  COMMIT_MSG:
+    description: The commit message associated with specifying the `BINDER_CACHE` flag.
+    require: false
+    default: Update image tag
   MYBINDERORG_TAG:
     description: This the Git branch, tag, or commit that you want mybinder.org to proactively build from your repo.  This is useful if you wish to avoid startup time on mybinder.org.  Your repository must be public for this work, as mybinder.org only works on public repositories.
     require: false
