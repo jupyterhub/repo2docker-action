@@ -2,50 +2,32 @@ name: Test
 on: [pull_request]
 
 jobs:    
-  imagename:
+  test-registry:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image_name: ['repo2docker-test', '']
+        tag: ['test-tag', '']
+        no_push: [true, '']
+        latest_off: [true, '']
+    services:
+      local-registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:  
     - name: Checkout
       uses: actions/checkout@v2
-      
-    - name: push to dockerhub
+    - name: test action
       uses: ./
       with:
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-  no-imagename:
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
-  
-    - name: push to dockerhub w/additional tag
-      uses: ./
-      with:
-        ADDITIONAL_TAG: 'test-additional-tag'
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-  no-push-no-registry:
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout
-      uses: actions/checkout@v2
-      
-    - name: no push
-      uses: ./
-      with:
-        NO_PUSH: 'true'
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
-
-    - name: no push without latest tag
-      uses: ./
-      with:
-        NO_PUSH: 'true'
-        LATEST_TAG_OFF: 'true'
-        IMAGE_NAME: "hamelsmu/repo2docker-test"
+        IMAGE_NAME: ${{ matrix.image_name }}
+        ADDITIONAL_TAG: ${{ matrix.tag }}
+        NO_PUSH: ${{ matrix.push }}
+        LATEST_TAG_OFF: ${{ matrix.latest_off }}
+        DOCKER_REGISTRY: "localhost:5000"
+        DOCKER_USERNAME: 'foo'
+        DOCKER_PASSWORD: 'foo'
 
   mybinder:
     runs-on: ubuntu-latest
