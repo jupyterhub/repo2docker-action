@@ -49,6 +49,16 @@ if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BI
         NB_USER="${INPUT_NOTEBOOK_USER}"
 fi
 
+# Set REPO_DIR
+
+if [ -z "$INPUT_REPO_DIR" ];
+    then
+        REPO_DIR="/home/${NB_USER}"
+
+    else
+        REPO_DIR="${INPUT_REPO_DIR}"
+fi
+
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
@@ -63,6 +73,7 @@ echo "::group::Show Variables"
     echo "SHA_NAME: ${SHA_NAME}"
     echo "PWD: ${PWD}"
     echo "INPUT_NOTEBOOK_USER: ${INPUT_NOTEBOOK_USER}"
+    echo "INPUT_REPO_DIR: ${INPUT_REPO_DIR}"
     echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
     echo "DOCKER_REGISTRY": ${INPUT_DOCKER_REGISTRY}
     echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
@@ -103,7 +114,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
             fi
         fi
 
-        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
@@ -133,7 +144,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi

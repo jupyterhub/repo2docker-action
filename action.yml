@@ -16,6 +16,9 @@ inputs:
   NOTEBOOK_USER:
     description: username of the primary user in the image
     require: false
+  REPO_DIR:
+    description: path inside the image where contents of the repositories are copied to
+    require: false
   LATEST_TAG_OFF:
     description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the GitHub commit SHA.  This is enabled by default.
     require: false
