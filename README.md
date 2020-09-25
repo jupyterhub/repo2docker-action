@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 - `DOCKER_USERNAME`:
     description: Docker registry username
 - `DOCKER_PASSWORD`:
-    description: Docker registry password
+    description: Docker registry password or [access token](https://docs.docker.com/docker-hub/access-tokens/)
 
 ## Optional Inputs
 
@@ -161,7 +161,7 @@ jobs:
 
 ### Use GitHub Actions To Cache The Build For BinderHub
 
-Instead of forcing mybinder.org to cache your builds, you can optionally build an Docker image with GitHub Actions and push that to a Docker registry, so that any [BinderHub](https://binderhub.readthedocs.io/en/latest/) instance, including mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder.org like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.
+Instead of forcing mybinder.org to cache your builds, you can optionally build a Docker image with GitHub Actions and push that to a Docker registry, so that any [BinderHub](https://binderhub.readthedocs.io/en/latest/) instance, including mybinder.org only has to pull the image.  This might give you more control than triggering a build directly on mybinder.org like the method illustrated above.  In this example, you must supply the [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `DOCKER_USERNAME` and `DOCKER_PASSWORD` so that Actions can push to DockerHub.  Note that, instead of your actual password, you can use an [access token](https://docs.docker.com/docker-hub/access-tokens/) — which may be a more secure option.
 
 In this case, we set `BINDER_CACHE` to `true` to enable this option.  See the documentation for the parameter `BINDER_CACHE` in the [Optional Inputs](#optional-inputs) section for more information.
 
@@ -222,7 +222,7 @@ jobs:
 
     - name: update jupyter dependencies with repo2docker
       uses: jupyterhub/repo2docker-action@master
-      with: # make sure username & password matches your registry
+      with: # make sure username & password/token matches your registry
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_REGISTRY: "gcr.io"
