@@ -54,7 +54,6 @@ fi
 if [ -z "$INPUT_REPO_DIR" ];
     then
         REPO_DIR="/home/${NB_USER}"
-
     else
         REPO_DIR="${INPUT_REPO_DIR}"
 fi
