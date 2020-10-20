@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 - `DOCKER_USERNAME`:
     description: Docker registry username
 - `DOCKER_PASSWORD`:
-    description: Docker registry password or [access token](https://docs.docker.com/docker-hub/access-tokens/).  **If using DockerHub, we recommend using an access token instead of your password for security reasons.**
+    description: Docker registry password or [access token](https://docs.docker.com/docker-hub/access-tokens/).  **If using DockerHub, we recommend using an access token instead of your password.**
 
 ## Optional Inputs
 
