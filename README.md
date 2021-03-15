@@ -248,8 +248,8 @@ to any particular cloud vendor.
        - name: update jupyter dependencies with repo2docker
          uses: jupyterhub/repo2docker-action@master
          with: # make sure username & password/token matches your registry
-           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+           DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
+           DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
            DOCKER_REGISTRY: "quay.io"
            IMAGE_NAME: "<quay-username>/<repository-name>"
 
