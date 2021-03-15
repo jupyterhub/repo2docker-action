@@ -207,6 +207,55 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
+## Push image to quay.io
+
+DockerHub now has some [pretty strong rate limits](https://docs.docker.com/docker-hub/download-rate-limit/),
+so you might want to push to a different docker repository. 
+[quay.io](https://quay.io/) is a popular place, and isn't tied
+to any particular cloud vendor.
+
+1. Login to [quay.io](https://quay.io)
+2. Create a new [repository](https://quay.io/new/). This will determine
+   the name of your image, and you will push / pull from it. Your image
+   name will be `quay.io/<username>/<repository-name>`.
+3. Go to your account settings (under your name in the top right), and
+   select the 'Robot Accounts' option on the left menu.
+4. Click 'Create Robot account', give it a memorable name (such as
+   `<hub-name>_image_builder`) and click 'Create'
+5. In the next screen, select the repository you just created in step (2),
+   and give the robot account `Write` permission to the repository.
+6. Once done, click the name of the robot account again. This will give you
+   its username and password.
+7. Create these [GitHub secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+   for your repository with the credentials from the robot account:
+   1. `QUAY_USERNAME`: user name of the robot account
+   2. `QUAY_PASSWORD`: password of the robot account
+   
+8. Use the following config for your github action.
+   ```yaml
+   name: Build container image
+
+   on: [push]
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+
+       - name: checkout files in repo
+         uses: actions/checkout@main
+
+       - name: update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with: # make sure username & password/token matches your registry
+           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+           DOCKER_REGISTRY: "quay.io"
+           IMAGE_NAME: "<quay-username>/<repository-name>"
+
+   ```
+ 
+
 ## Push Image To A Registry Other Than DockerHub
 
 ```yaml
