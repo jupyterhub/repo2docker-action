@@ -189,6 +189,9 @@ jobs:
 
 ## Push Repo2Docker Image To DockerHub
 
+We recommend creating a [personal access token](https://docs.docker.com/docker-hub/access-tokens/)
+and use that as `DOCKER_PASSWORD` instead of using your dockerhub password.
+
 ```yaml
 name: Build Notebook Container
 on: [push] # You may want to trigger this Action on other things than a push.
