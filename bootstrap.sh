@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # THIS FILE IS FOR LOCAL TESTING
 
