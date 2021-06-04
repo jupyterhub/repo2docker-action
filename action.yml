@@ -19,6 +19,9 @@ inputs:
   REPO_DIR:
     description: path inside the image where contents of the repositories are copied to
     require: false
+  APPENDIX:
+    description: Appendix of Dockerfile commands to run at the end of the build. Can be used to customize the resulting image after all standard build steps finish.
+    require: false
   LATEST_TAG_OFF:
     description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the GitHub commit SHA.  This is enabled by default.
     require: false
