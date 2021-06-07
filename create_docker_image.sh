@@ -119,7 +119,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
             fi
         fi
 
-        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix $APPENDIX
+        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix "$APPENDIX" ${PWD}
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
@@ -149,7 +149,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix ${APPENDIX} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix "${APPENDIX}" ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
