@@ -15,7 +15,7 @@ function check_env() {
 
 if [ "$INPUT_APPENDIX_FILE" ]; then
     APPENDIX=`cat $INPUT_APPENDIX_FILE`
-    echo "Appendix read from $INPUT_APPENDIX_FILE: $APPENDIX"
+    echo "Appendix read from $INPUT_APPENDIX_FILE:\n$APPENDIX"
 fi
 
 if [ -z "$INPUT_NO_PUSH" ]; then
