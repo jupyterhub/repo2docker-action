@@ -13,6 +13,11 @@ function check_env() {
     fi
 }
 
+if [ "$INPUT_APPENDIX_FILE" ]; then
+    APPENDIX=`cat $INPUT_APPENDIX_FILE`
+    echo "Appendix read from $INPUT_APPENDIX_FILE: $APPENDIX"
+fi
+
 if [ -z "$INPUT_NO_PUSH" ]; then
     check_env "INPUT_DOCKER_USERNAME"
     check_env "INPUT_DOCKER_PASSWORD"
@@ -113,7 +118,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
             fi
         fi
 
-        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix ${INPUT_APPENDIX} ${PWD}
+        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix $APPENDIX
 
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
@@ -143,7 +148,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
 else
     echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} ${PWD}
+        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix ${APPENDIX} ${PWD}
         if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
             docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
         fi
