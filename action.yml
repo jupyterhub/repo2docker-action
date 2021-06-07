@@ -19,7 +19,7 @@ inputs:
   REPO_DIR:
     description: path inside the image where contents of the repositories are copied to
     require: false
-  APPENDIX:
+  APPENDIX_FILE:
     description: Appendix of Dockerfile commands to run at the end of the build. Can be used to customize the resulting image after all standard build steps finish.
     require: false
   LATEST_TAG_OFF:
