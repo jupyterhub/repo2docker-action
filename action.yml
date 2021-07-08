@@ -8,7 +8,7 @@ inputs:
     description: Docker registry password.  If not supplied, credentials must be setup ahead of time.
     required: false
   DOCKER_REGISTRY:
-    description: name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
+    description: domain name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
     require: false
   IMAGE_NAME:
     description: name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to $DOCKER_USERNAME/$GITHUB_REPOSITORY_NAME

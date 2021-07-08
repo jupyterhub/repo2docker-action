@@ -55,7 +55,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 - **`DOCKER_PASSWORD`**:
     description: Docker registry password or [access token (recommended)](https://docs.docker.com/docker-hub/access-tokens/).  If not supplied, credentials must be setup ahead of time.
 - **`DOCKER_REGISTRY`**:
-    description: name of the docker registry.  If not supplied, this defaults to [DockerHub](https://hub.docker.com/)
+    description: domain name of the docker registry.  If not supplied, this defaults to [DockerHub](https://hub.docker.com/)
 - **`IMAGE_NAME`**:
     name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `<DOCKER_USERNAME/GITHUB_REPOSITORY_NAME>`.
 - **`NOTEBOOK_USER`**:
@@ -298,7 +298,7 @@ jobs:
     - name: update jupyter dependencies with repo2docker
       uses: jupyterhub/repo2docker-action@master
       with:
-        DOCKER_REGISTRY: your-registry
+        DOCKER_REGISTRY: your-registry.example.org
         IMAGE_NAME: your-image-name
 ```
 
