@@ -2,13 +2,13 @@ name: 'repo2docker Action'
 description: 'Creates a docker image of your repository to view the collection of notebooks'
 inputs:
   DOCKER_USERNAME:
-    description: Docker registry username
-    require: true
+    description: Docker registry username.  If not supplied, credentials must be setup ahead of time.
+    require: false
   DOCKER_PASSWORD:
-    description: Docker registry password
-    required: true
+    description: Docker registry password.  If not supplied, credentials must be setup ahead of time.
+    required: false
   DOCKER_REGISTRY:
-    description: name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
+    description: domain name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
     require: false
   IMAGE_NAME:
     description: name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to $DOCKER_USERNAME/$GITHUB_REPOSITORY_NAME

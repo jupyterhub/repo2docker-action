@@ -18,22 +18,20 @@ if [ "$INPUT_APPENDIX_FILE" ]; then
     echo "Appendix read from $INPUT_APPENDIX_FILE:\n$APPENDIX"
 fi
 
-if [ -z "$INPUT_NO_PUSH" ]; then
-    check_env "INPUT_DOCKER_USERNAME"
-    check_env "INPUT_DOCKER_PASSWORD"
-    # Login to Docker registry
+# Login to Docker registry if about to push and credentials are passed
+if [[ -z "$INPUT_NO_PUSH" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
     echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_DOCKER_USERNAME} --password-stdin
 fi
 
 REPO_NAME=`echo $GITHUB_REPOSITORY | cut -d "/" -f 2`
 
-# Set Docker username to the actor name not provided
-if [ -z "$INPUT_DOCKER_USERNAME" ]; then
-    INPUT_DOCKER_USERNAME="$GITHUB_ACTOR"
-fi
-
 # Set image name to username/repo_name if not provided
 if [ -z "$INPUT_IMAGE_NAME" ]; then
+    if [[ -z "$INPUT_DOCKER_USERNAME" ]]; then
+        echo "IMAGE_NAME must be explicitly set when DOCKER_USERNAME isn't set.  Exiting..."
+        exit 1
+    fi
+
     INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
     # Lower-case
     INPUT_IMAGE_NAME="${INPUT_IMAGE_NAME,,}"
@@ -45,7 +43,6 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-
 if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; 
     then
         NB_USER="jovyan"
@@ -55,7 +52,6 @@ if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BI
 fi
 
 # Set REPO_DIR
-
 if [ -z "$INPUT_REPO_DIR" ];
     then
         REPO_DIR="/home/${NB_USER}"
