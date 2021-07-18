@@ -57,7 +57,7 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 - **`DOCKER_REGISTRY`**:
     description: domain name of the docker registry.  If not supplied, this defaults to [DockerHub](https://hub.docker.com/)
 - **`IMAGE_NAME`**:
-    name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `<DOCKER_USERNAME>/<GITHUB_REPOSITORY_NAME>`.
+    name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to `<DOCKER_USERNAME>/<GITHUB_REPOSITORY_NAME>` or `<GITHUB_ACTOR>/<GITHUB_REPOSITORY_NAME>`.
 - **`NOTEBOOK_USER`**:
     description: username of the primary user in the image. If this is not specified, this is set to `joyvan`.  **NOTE**: This value is also overriden with `jovyan` if the parameters `BINDER_CACHE` or `MYBINDERORG_TAG` are provided.
 - **`REPO_DIR`**:

@@ -25,14 +25,14 @@ fi
 
 REPO_NAME=`echo $GITHUB_REPOSITORY | cut -d "/" -f 2`
 
-# Set image name to username/repo_name if not provided
+# Set image name to username/repo_name or github_actor/repo_name
 if [ -z "$INPUT_IMAGE_NAME" ]; then
     if [[ -z "$INPUT_DOCKER_USERNAME" ]]; then
-        echo "IMAGE_NAME must be explicitly set when DOCKER_USERNAME isn't set.  Exiting..."
-        exit 1
+        INPUT_IMAGE_NAME="$GITHUB_ACTOR/$REPO_NAME"
+    else
+        INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
     fi
 
-    INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
     # Lower-case
     INPUT_IMAGE_NAME="${INPUT_IMAGE_NAME,,}"
 fi
