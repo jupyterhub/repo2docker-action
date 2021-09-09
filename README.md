@@ -271,42 +271,42 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
    2. `AWS_SECRET_ACCESS_KEY`: secret access key of the IAM user
 
 6. Use the following config for your github action.
-  ```yaml
-  name: Build container image
+   ```yaml
+   name: Build container image
 
-  on:
-    push:
-      branches:
-        - main
+   on:
+     push:
+       branches:
+         - main
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      env:
-        DOCKER_CONFIG: $HOME/.docker
-      steps:
-      - name: checkout files in repo
-        uses: actions/checkout@main
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       env:
+         DOCKER_CONFIG: $HOME/.docker
+       steps:
+       - name: checkout files in repo
+         uses: actions/checkout@main
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: <region>
+       - name: Configure AWS Credentials
+         uses: aws-actions/configure-aws-credentials@v1
+         with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: <region>
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+       - name: Login to Amazon ECR
+         id: login-ecr
+         uses: aws-actions/amazon-ecr-login@v1
 
 
-      - name: Update jupyter dependencies with repo2docker
-        uses: jupyterhub/repo2docker-action@master
-        with:
-          DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_NAME: "<aws-username>/<repository-name>"
+       - name: Update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with:
+           DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+           IMAGE_NAME: "<aws-username>/<repository-name>"
 
-  ```
+   ```
 
 ## Push Image To A Registry Other Than DockerHub
 
