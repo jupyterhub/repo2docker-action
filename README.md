@@ -254,7 +254,59 @@ to any particular cloud vendor.
            IMAGE_NAME: "<quay-username>/<repository-name>"
 
    ```
- 
+
+
+## Push image to a private Amazon ECR repository
+
+1. Login to [Amazon AWS Console](https://console.aws.amazon.com/)
+2. [Create an individual IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users) who's access key will be used by the GitHub Actions. Make sure the user has permissions to make calls to the Amazon ECR APIs and to push/pull images to the repositories you need.
+Checkout and follow [Amazon IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html) for the AWS credentials used in GitHub Actions workflows.
+3. Create a new private [repository](https://us-east-2.console.aws.amazon.com/ecr/create-repository). This will determine the name of your image, and you will push / pull from it. Your image name will be `<aws-account-id>.dkr.ecr.<aws-region>.amazonaws.com/<username>/<repository-name>`.
+4. Go to the IAM dashboard, ['Users' section](https://console.aws.amazon.com/iamv2/home#/users) and click on the username created at `Step 2`.
+Click on 'Security credentials' tab, right below the 'Summary' section. In the 'Access keys' section, click on the 'Create access key' button. 
+Once done, it will give you an 'Access key ID' and the 'Secret access key'.
+5. Create these [GitHub secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+   for your repository with the credentials from the robot account:
+   1. `AWS_ACCESS_KEY_ID`: access key id of the IAM user
+   2. `AWS_SECRET_ACCESS_KEY`: secret access key of the IAM user
+
+6. Use the following config for your github action.
+   ```yaml
+   name: Build container image
+
+   on:
+     push:
+       branches:
+         - main
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       env:
+         DOCKER_CONFIG: $HOME/.docker
+       steps:
+       - name: checkout files in repo
+         uses: actions/checkout@main
+
+       - name: Configure AWS Credentials
+         uses: aws-actions/configure-aws-credentials@v1
+         with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: <region>
+
+       - name: Login to Amazon ECR
+         id: login-ecr
+         uses: aws-actions/amazon-ecr-login@v1
+
+
+       - name: Update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with:
+           DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+           IMAGE_NAME: "<aws-username>/<repository-name>"
+
+   ```
 
 ## Push Image To A Registry Other Than DockerHub
 
