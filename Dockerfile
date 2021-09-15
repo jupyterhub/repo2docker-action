@@ -1,4 +1,4 @@
-FROM jupyter/repo2docker:master
+FROM quay.io/jupyterhub/repo2docker:main
 
 
 RUN echo "**** install Python ****" && \
