@@ -17,10 +17,10 @@
 		- [Cache Builds On mybinder.org And Provide A Link](#cache-builds-on-mybinderorg-and-provide-a-link)
 		- [Use GitHub Actions To Cache The Build For BinderHub](#use-github-actions-to-cache-the-build-for-binderhub)
 	- [Push Repo2Docker Image To DockerHub](#push-repo2docker-image-to-dockerhub)
-  - [Push Repo2Docker image to quay.io](push-repo2docker-image-to-quay.io)
-  - [Push Repo2Docker image to Amazon ECR](push-repo2docker-image-to-amazon-ecr)
-  - [Push Repo2Docker image to Google Container Registry](push-repo2docker-image-to-google-container-registry)
-	- [Push Image To A Registry Other Than DockerHub](#push-image-to-a-registry-other-than-dockerhub)
+  - [Push Repo2Docker Image To quay.io](#push-repo2docker-image-to-quayio)
+  - [Push Repo2Docker Image To Amazon ECR](#push-repo2docker-image-to-amazon-ecr)
+  - [Push Repo2Docker Image To Google Container Registry](#push-repo2docker-image-to-google-container-registry)
+  - [Push Repo2Docker Image To Other Registries](#push-image-to-other-registries)
 	- [Change Image Name](#change-image-name)
 	- [Test Image Build](#test-image-build)
 - [Contributing](#contributing-to-repo2docker-action)
@@ -210,7 +210,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
-## Push Repo2Docker image to quay.io
+## Push Repo2Docker Image To quay.io
 
 DockerHub now has some [pretty strong rate limits](https://docs.docker.com/docker-hub/download-rate-limit/),
 so you might want to push to a different docker repository. 
@@ -258,7 +258,7 @@ to any particular cloud vendor.
 
    ```
 
-## Push Repo2Docker image to Amazon ECR
+## Push Repo2Docker Image To Amazon ECR
 
 1. Login to [Amazon AWS Console](https://console.aws.amazon.com/)
 2. [Create an individual IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users) who's access key will be used by the GitHub Actions. Make sure the user has permissions to make calls to the Amazon ECR APIs and to push/pull images to the repositories you need.
@@ -307,7 +307,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
 
    ```
 
-## Push Repo2Docker image to Google Container Registry
+## Push Repo2Docker Image To Google Container Registry
 
 1. Login to [Google Cloud Console](https://console.cloud.google.com)
 2. Create (or use an existing) Google Cloud Project with the billing activated. This will be the place where the registry hosting the repo2docker image will live.
@@ -353,7 +353,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
            IMAGE_NAME: ${{ secrets.GCP_PROJECT_ID }}/test-repo2docker-action
      ```
 
-## Push Image To A Registry Other Than DockerHub
+## Push Repo2Docker Image To Other Registries
 
 If the docker registry accepts a credentials to be passed as a username and password string, you can do it like this.
 
