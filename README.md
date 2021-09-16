@@ -17,6 +17,9 @@
 		- [Cache Builds On mybinder.org And Provide A Link](#cache-builds-on-mybinderorg-and-provide-a-link)
 		- [Use GitHub Actions To Cache The Build For BinderHub](#use-github-actions-to-cache-the-build-for-binderhub)
 	- [Push Repo2Docker Image To DockerHub](#push-repo2docker-image-to-dockerhub)
+  - [Push Repo2Docker image to quay.io](push-repo2docker-image-to-quay.io)
+  - [Push Repo2Docker image to Amazon ECR](push-repo2docker-image-to-amazon-ecr)
+  - [Push Repo2Docker image to Google Container Registry](push-repo2docker-image-to-google-container-registry)
 	- [Push Image To A Registry Other Than DockerHub](#push-image-to-a-registry-other-than-dockerhub)
 	- [Change Image Name](#change-image-name)
 	- [Test Image Build](#test-image-build)
@@ -207,7 +210,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
 
-## Push image to quay.io
+## Push Repo2Docker image to quay.io
 
 DockerHub now has some [pretty strong rate limits](https://docs.docker.com/docker-hub/download-rate-limit/),
 so you might want to push to a different docker repository. 
@@ -255,8 +258,7 @@ to any particular cloud vendor.
 
    ```
 
-
-## Push image to a private Amazon ECR repository
+## Push Repo2Docker image to Amazon ECR
 
 1. Login to [Amazon AWS Console](https://console.aws.amazon.com/)
 2. [Create an individual IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users) who's access key will be used by the GitHub Actions. Make sure the user has permissions to make calls to the Amazon ECR APIs and to push/pull images to the repositories you need.
@@ -274,10 +276,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
    ```yaml
    name: Build container image
 
-   on:
-     push:
-       branches:
-         - main
+   on: [push]
 
    jobs:
      build:
@@ -307,6 +306,52 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
            IMAGE_NAME: "<aws-username>/<repository-name>"
 
    ```
+
+## Push Repo2Docker image to Google Container Registry
+
+1. Login to [Google Cloud Console](https://console.cloud.google.com)
+2. Create (or use an existing) Google Cloud Project with the billing activated. This will be the place where the registry hosting the repo2docker image will live.
+3. Make sure [`Container Registry API`](https://console.cloud.google.com/apis/library/containerregistry.googleapis.com) is enabled for this project.
+4. Create a Service Account to authenticate the calls made by GitHub Actions to our GCP project:
+   * In the Cloud Console, go to the [Service Accounts page](https://console.cloud.google.com/iam-admin/serviceaccounts).
+   * Make sure the right project is selected in the drop-down menu above.
+   * Click on [`Create Service Account`](https://console.cloud.google.com/iam-admin/serviceaccounts/create)
+   * Enter a service account name — give it a memorable name (such as `<hub-name>_image_builder`).
+   * Grant this service account access to project. As a best practice, grant it only the minimum permissions: `Cloud Run Admin`, `Service Account User`, and `Storage Admin`.
+5. Click on the service account's name you just created and select the `Keys` tab. Click on the `ADD KEY` button, select `Create new key`, then create a JSON key type. The private key will be saved to your computer. Make sure to store it somewhere secure!
+6. Create these [GitHub secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+   for your repository with the credentials from the robot account:
+   1. `GCP_SA_KEY`: the private key of the service account created in the previous step
+   2. `GCP_PROJECT_ID`: the id of the Google Cloud Project
+7. Use the following config for your github action.
+   ```yaml
+   name: Build container image
+
+   on: [push]
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       env:
+         DOCKER_CONFIG: $HOME/.docker
+
+       steps:
+       - name: checkout files in repo
+         uses: actions/checkout@main
+
+       - name: Login to GCR
+         uses: docker/login-action@v1
+         with:
+           registry: gcr.io
+           username: _json_key
+           password: ${{ secrets.GCP_SA_KEY }}
+
+       - name: Update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with:
+           DOCKER_REGISTRY: gcr.io
+           IMAGE_NAME: ${{ secrets.GCP_PROJECT_ID }}/test-repo2docker-action
+     ```
 
 ## Push Image To A Registry Other Than DockerHub
 
