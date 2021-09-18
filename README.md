@@ -405,6 +405,41 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
 
      ```
 
+## Push Repo2Docker Image To Azure Container Registry
+
+1. Login to [Azure Portal](https://portal.azure.com/)
+2. Create a new [container registry](https://portal.azure.com/#create/Microsoft.ContainerRegistry). This will determine the name of your image, and you will push / pull from it. Your image name will be `<container-registry-name>.azurecr.io/<repository-name>`.
+3. Go to `Access Keys` option on the left menu.
+4. Enable `Admin user` so you can use the registry name as username and admin user access key as password to docker login to your container registry.
+5. Create these [GitHub secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+   for your repository with the credentials from the robot account:
+   1. `ACR_USERNAME`: the registry name
+   2. `ACR_PASSWORD`: the access key of the admin user
+
+6. Use the following config for your github action.
+   ```yaml
+   name: Build container image
+
+   on: [push]
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+
+       steps:
+       - name: checkout files in repo
+         uses: actions/checkout@main
+
+       - name: Update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with:
+           DOCKER_USERNAME: ${{ secrets.ACR_USERNAME }}
+           DOCKER_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+           DOCKER_REGISTRY: <container-registry-name>.azurecr.io
+           IMAGE_NAME: <repository-name>
+
+   ```
+
 ## Push Repo2Docker Image To Other Registries
 
 If the docker registry accepts a credentials to be passed as a username and password string, you can do it like this.
