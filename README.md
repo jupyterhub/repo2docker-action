@@ -21,6 +21,7 @@
 	- [Push Repo2Docker Image To Amazon ECR](#push-repo2docker-image-to-amazon-ecr)
 	- [Push Repo2Docker Image To Google Container Registry](#push-repo2docker-image-to-google-container-registry)
 	- [Push Repo2Docker Image To Google Artifact Registry](#push-repo2docker-image-to-google-artifact-registry)
+	- [Push Repo2Docker Image To Azure Container Registry](#push-repo2docker-image-to-azure-container-registry)
 	- [Push Repo2Docker Image To Other Registries](#push-repo2docker-image-to-other-registries)
 	- [Change Image Name](#change-image-name)
 	- [Test Image Build](#test-image-build)
