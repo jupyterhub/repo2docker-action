@@ -1,0 +1,23 @@
+# Automatically updates "vX" branches based on GitHub releases. To cut a new
+# release, use the GitHub UI where you enter a tag name and release name of
+# "vX.Y.Z". See https://github.com/jupyterhub/repo2docker-action/releases.
+---
+name: Release updates
+
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  actions-tagger:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      # Action reference: https://github.com/Actions-R-Us/actions-tagger
+      - uses: Actions-R-Us/actions-tagger@f411bd910a5ad370d4511517e3eac7ff887c90ea
+        with:
+          # By using branches as identifiers it is still possible to backtrack
+          # some patch, but not if we use tags.
+          prefer_branch_releases: true
+          token: "${{ github.token }}"
