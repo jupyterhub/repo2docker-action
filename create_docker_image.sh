@@ -156,6 +156,21 @@ else
     echo "::set-output name=PUSH_STATUS::false"/
 fi
 
+# If a directory named image-tests exists, run tests on the built image
+if [ -d "${PWD}/image-tests" ]; then
+    echo "::group::Run tests found in image-tests/"
+    # If there' a requirements.txt file there, install it
+    # This helps install any pytest related packages
+    docker run -u 1000 -w ${REPO_DIR} \
+        ${SHA_NAME} /bin/bash -c "
+        [ -f image-tests/requirements.txt ] && \
+            echo 'Installing from image-tests/requirements.txt...' && \
+            python3 -m pip install --no-cache -r image-tests/requirements.txt;
+        which py.test > /dev/null || echo 'Installing pytest inside the image...' && python3 -m pip install --no-cache pytest > /dev/null;
+        py.test image-tests/
+    "
+    echo "::endgroup::"
+fi
 
 if [ "$INPUT_BINDER_CACHE" ]; then
     echo "::group::Commit Local Dockerfile For Binder Cache" 
