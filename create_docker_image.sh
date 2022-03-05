@@ -163,11 +163,19 @@ if [ -d "${PWD}/image-tests" ]; then
     # This helps install any pytest related packages
     docker run -u 1000 -w ${REPO_DIR} \
         ${SHA_NAME} /bin/bash -c "
+        export PYTEST_FLAGS='';
         [ -f image-tests/requirements.txt ] && \
             echo 'Installing from image-tests/requirements.txt...' && \
             python3 -m pip install --no-cache -r image-tests/requirements.txt;
-        which py.test > /dev/null || echo 'Installing pytest inside the image...' && python3 -m pip install --no-cache pytest > /dev/null;
-        py.test image-tests/
+        which py.test > /dev/null || \
+            echo 'Installing pytest inside the image...' && \
+            python3 -m pip install --no-cache pytest > /dev/null;
+        ls image-tests/*.ipynb > /dev/null && \
+            echo 'Found notebooks, using pytest-notebook to run them...' && \
+            export PYTEST_FLAGS=\"--nb-test-files \${PYTEST_FLAGS}\" && \
+            python3 -c 'import pytest_notebook' > /dev/null || \
+                python3 -m pip install --no-cache pytest-notebook > /dev/null;
+        py.test \${PYTEST_FLAGS} image-tests/
     "
     echo "::endgroup::"
 fi
