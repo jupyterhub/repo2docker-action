@@ -108,6 +108,10 @@ removals do not break your code, allowing you to make changes with confidence.
 [pytest-notebook](https://pytest-notebook.readthedocs.io/) is used to
 run any Jupyter Notebooks as tests.
 
+This **works with any Jupyter kernel**. This action will use the Jupyter kernel defined in any notebook you put in `image-tests/`. This can be used to execute and test notebooks from any language.
+
+To use automatic image testing, follow these steps:
+
 1. Create a directory named `image-tests/` in your GitHub repository.
 2. Any `.py` files you add inside this directory will be discovered
    and run with `pytest` inside the built image after the image has
