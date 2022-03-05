@@ -113,7 +113,7 @@ run any Jupyter Notebooks as tests.
    and run with `pytest` inside the built image after the image has
    successfully built.
 3. Any Jupyter Notebook (`.ipynb`) files inside this directory will
-   be run with `pytest-notebook`, and the notebook is considered to
+   be run with [`pytest-notebook`](https://pytest-notebook.readthedocs.io/en/latest/), and the notebook is considered to
    have *failed* if the outputs of the code execution do not match
    the outputs already in the notebook. A nice diff of the outputs
    is shown if they differ. See the [pytest-notebook docs](https://pytest-notebook.readthedocs.io/en/latest/)
@@ -122,6 +122,21 @@ run any Jupyter Notebooks as tests.
    directory can list additional libraries installed just for the
    test.
 
+For example, look at the following image environment repository structure:
+
+```
+my-image/
+├── environment.yml
+└── image-tests
+    ├── mytestnotebook.ipynb
+    └── mytest.py
+```
+
+This defines three things:
+
+- **`environment.yml`** is a repo2docker environment file, which defines the packages for the user image
+- **`image-tests/mytestnotebook.ipynb`** is a Jupyter notebook that is already executed so its outputs are included in the `ipynb` file. When the image is built, this notebook will be re-executed, and the outputs compared against the version stored with the repository.
+- **`image-tests/mytest.py`** is a Python file that will be run with Pytest, and any failures will be reported.
 # Examples
 
 ## mybinder.org
