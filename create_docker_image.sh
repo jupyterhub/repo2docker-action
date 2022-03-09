@@ -87,6 +87,8 @@ echo "::group::Show Variables"
     echo "SHA_NAME: ${SHA_NAME}"
 echo "::endgroup::"
 
+echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
+
 if [ -z "$INPUT_NO_PUSH" ]; then
     echo "::group::Build and Push ${SHA_NAME}"
         
