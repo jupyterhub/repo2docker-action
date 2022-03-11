@@ -3,15 +3,7 @@
 # exit when any command fails
 set -e
 
-echo "::group::Validate Information"  
-
-# Validate That Required Inputs Were Supplied
-function check_env() {
-    if [ -z $(eval echo "\$$1") ]; then
-        echo "Variable $1 not found.  Exiting..."
-        exit 1
-    fi
-}
+echo "::group::Validate Information"
 
 if [ "$INPUT_APPENDIX_FILE" ]; then
     APPENDIX=`cat $INPUT_APPENDIX_FILE`
@@ -43,7 +35,7 @@ if [ "$INPUT_DOCKER_REGISTRY" ]; then
 fi
 
 # Set username
-if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ]; 
+if [ -z "$INPUT_NOTEBOOK_USER" ] || [ "$INPUT_MYBINDERORG_TAG" ] || [ "$INPUT_BINDER_CACHE" ];
     then
         NB_USER="jovyan"
 
@@ -73,7 +65,6 @@ echo "::group::Show Variables"
     echo "INPUT_ADDITIONAL_TAG: ${INPUT_ADDITIONAL_TAG}"
     echo "INPUT_APPENDIX_FILE: ${INPUT_APPENDIX_FILE}"
     echo "INPUT_BINDER_CACHE: ${INPUT_BINDER_CACHE}"
-    echo "INPUT_BINDER_CACHE: ${INPUT_BINDER_CACHE}"
     echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
     echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
     echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
@@ -89,48 +80,60 @@ echo "::endgroup::"
 
 echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
 
+
+echo "::group::Build ${SHA_NAME}"
+
+# If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
+if [ "$INPUT_BINDER_CACHE" ]; then
+    GENERIC_MSG="This Action assumes you are not explicitly using Binder to build your dependencies."
+
+    # Exit if .binder directory is present
+    if [ -d ".binder" ]; then
+            echo "Found directory .binder ${GENERIC_MSG} The presence of a directory named .binder indicates otherwise.  Aborting this step.";
+            exit 1;
+    fi
+
+    # Delete binder directory if it exists and only contains Dockerfile, so repo2docker can do a fresh build.
+    if [ -d "binder" ]; then
+        # if /binder has files other than Dockerfile, exit with status code 1, else remove the binder folder.
+        num_files=`ls binder | grep -v 'Dockerfile' | wc -l`
+        if [[ "$num" -gt 0 ]];
+            then
+                echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
+                exit 1;
+            else
+                rm -rf binder
+        fi
+    fi
+fi
+
+# Just build the image, do not push it
+jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} \
+    --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} \
+    --appendix "$APPENDIX" ${PWD}
+
+if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
+    docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
+fi
+if [ "$INPUT_ADDITIONAL_TAG" ]; then
+    docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
+fi
+echo "::endgroup::"
+
 if [ -z "$INPUT_NO_PUSH" ]; then
-    echo "::group::Build and Push ${SHA_NAME}"
-        
+    echo "::group::Pushing ${SHA_NAME}"
 
-        # If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
-        if [ "$INPUT_BINDER_CACHE" ]; then
-            GENERIC_MSG="This Action assumes you are not explicitly using Binder to build your dependencies."
+	docker push ${SHA_NAME}
 
-            # Exit if .binder directory is present
-            if [ -d ".binder" ]; then
-                    echo "Found directory .binder ${GENERIC_MSG} The presence of a directory named .binder indicates otherwise.  Aborting this step.";
-                    exit 1;
-            fi
+    if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
+        docker push ${INPUT_IMAGE_NAME}:latest
+    fi
+    if [ "$INPUT_ADDITIONAL_TAG" ]; then
+        docker push ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
+    fi
 
-            # Delete binder directory if it exists and only contains Dockerfile, so repo2docker can do a fresh build.
-            if [ -d "binder" ]; then
-                # if /binder has files other than Dockerfile, exit with status code 1, else remove the binder folder.
-                num_files=`ls binder | grep -v 'Dockerfile' | wc -l`
-                if [[ "$num" -gt 0 ]]; 
-                    then
-                        echo "Files other than Dockerfile are present in your binder/ directory. ${GENERIC_MSG} This directory is used by this Action to point to an existing Docker image that Binder can pull.";
-                        exit 1;
-                    else
-                        rm -rf binder
-                fi
-            fi
-        fi
-
-        jupyter-repo2docker --push --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix "$APPENDIX" ${PWD}
-
-        if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
-            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
-            docker push ${INPUT_IMAGE_NAME}:latest
-        fi
-        if [ "$INPUT_ADDITIONAL_TAG" ]; then
-            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
-            docker push ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
-        fi
-        
     echo "::endgroup::"
 
-    echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
     echo "::set-output name=PUSH_STATUS::true"
 
     if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
@@ -146,16 +149,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     fi
 
 else
-    echo "::group::Build Image Without Pushing" 
-        jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} --appendix "${APPENDIX}" ${PWD}
-        if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
-            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
-        fi
-        if [ "$INPUT_ADDITIONAL_TAG" ]; then
-            docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
-        fi
-    echo "::endgroup::"
-    echo "::set-output name=PUSH_STATUS::false"/
+    echo "::set-output name=PUSH_STATUS::false"
 fi
 
 # If a directory named image-tests exists, run tests on the built image
@@ -191,7 +185,7 @@ if [ -d "${PWD}/image-tests" ]; then
 fi
 
 if [ "$INPUT_BINDER_CACHE" ]; then
-    echo "::group::Commit Local Dockerfile For Binder Cache" 
+    echo "::group::Commit Local Dockerfile For Binder Cache"
     python /binder_cache.py "$SHA_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
@@ -209,7 +203,7 @@ fi
 
 
 if [ "$INPUT_MYBINDERORG_TAG" ]; then
-    echo "::group::Triggering Image Build on mybinder.org" 
+    echo "::group::Triggering Image Build on mybinder.org"
     /trigger_binder.sh "https://gke.mybinder.org/build/gh/$GITHUB_REPOSITORY/$INPUT_MYBINDERORG_TAG"
     echo "::endgroup::"
 fi
