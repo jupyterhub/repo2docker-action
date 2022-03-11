@@ -120,38 +120,6 @@ if [ "$INPUT_ADDITIONAL_TAG" ]; then
 fi
 echo "::endgroup::"
 
-if [ -z "$INPUT_NO_PUSH" ]; then
-    echo "::group::Pushing ${SHA_NAME}"
-
-	docker push ${SHA_NAME}
-
-    if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
-        docker push ${INPUT_IMAGE_NAME}:latest
-    fi
-    if [ "$INPUT_ADDITIONAL_TAG" ]; then
-        docker push ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
-    fi
-
-    echo "::endgroup::"
-
-    echo "::set-output name=PUSH_STATUS::true"
-
-    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
-        echo "::group::Verify That Image Is Public"
-        docker logout
-        if docker pull $SHA_NAME; then
-            echo "Verified that $SHA_NAME is publicly visible."
-        else
-            echo "Could not pull docker image: $SHA_NAME.  Make sure this image is public before proceeding."
-            exit 1
-        fi
-        echo "::endgroup::"
-    fi
-
-else
-    echo "::set-output name=PUSH_STATUS::false"
-fi
-
 # If a directory named image-tests exists, run tests on the built image
 if [ -d "${PWD}/image-tests" ]; then
     echo "::group::Run tests found in image-tests/"
@@ -182,6 +150,38 @@ if [ -d "${PWD}/image-tests" ]; then
         py.test ${PYTEST_FLAGS} image-tests/
     '
     echo "::endgroup::"
+fi
+
+if [ -z "$INPUT_NO_PUSH" ]; then
+    echo "::group::Pushing ${SHA_NAME}"
+
+	docker push ${SHA_NAME}
+
+    if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
+        docker push ${INPUT_IMAGE_NAME}:latest
+    fi
+    if [ "$INPUT_ADDITIONAL_TAG" ]; then
+        docker push ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
+    fi
+
+    echo "::endgroup::"
+
+    echo "::set-output name=PUSH_STATUS::true"
+
+    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
+        echo "::group::Verify That Image Is Public"
+        docker logout
+        if docker pull $SHA_NAME; then
+            echo "Verified that $SHA_NAME is publicly visible."
+        else
+            echo "Could not pull docker image: $SHA_NAME.  Make sure this image is public before proceeding."
+            exit 1
+        fi
+        echo "::endgroup::"
+    fi
+
+else
+    echo "::set-output name=PUSH_STATUS::false"
 fi
 
 if [ "$INPUT_BINDER_CACHE" ]; then
