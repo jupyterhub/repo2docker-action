@@ -97,6 +97,8 @@ See the [examples](#examples) section is very helpful for understanding the inpu
 
 - **`IMAGE_SHA_NAME`**
     The name of the docker image, which is tagged with the SHA.
+- **`IMAGE_SHA_TAG`**
+    The short tag used as the 'tag' part (after the `:`) of the docker image name.
 - **`PUSH_STATUS`**:
     This is `false` if `NO_PUSH` is provided or `true` otherwhise.
 
