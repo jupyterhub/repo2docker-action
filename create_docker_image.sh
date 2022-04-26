@@ -187,6 +187,7 @@ fi
 if [ "$INPUT_BINDER_CACHE" ]; then
     echo "::group::Commit Local Dockerfile For Binder Cache"
     python /binder_cache.py "$SHA_NAME"
+    git config --global --add safe.directory /github/workspace
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
     git add binder/Dockerfile
