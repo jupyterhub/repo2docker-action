@@ -79,6 +79,7 @@ echo "::group::Show Variables"
 echo "::endgroup::"
 
 echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
+echo "::set-output name=IMAGE_SHA_TAG::${shortSHA}"
 
 
 echo "::group::Build ${SHA_NAME}"
