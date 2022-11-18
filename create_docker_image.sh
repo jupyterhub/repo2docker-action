@@ -78,8 +78,8 @@ echo "::group::Show Variables"
     echo "SHA_NAME: ${SHA_NAME}"
 echo "::endgroup::"
 
-echo "::set-output name=IMAGE_SHA_NAME::${SHA_NAME}"
-echo "::set-output name=IMAGE_SHA_TAG::${shortSHA}"
+echo "IMAGE_SHA_NAME=${SHA_NAME}" >> $GITHUB_OUTPUT
+echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 
 
 echo "::group::Build ${SHA_NAME}"
@@ -167,7 +167,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
 
     echo "::endgroup::"
 
-    echo "::set-output name=PUSH_STATUS::true"
+    echo "PUSH_STATUS=true" >> $GITHUB_OUTPUT
 
     if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
         echo "::group::Verify That Image Is Public"
@@ -182,7 +182,7 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     fi
 
 else
-    echo "::set-output name=PUSH_STATUS::false"
+    echo "PUSH_STATUS=false" >> $GITHUB_OUTPUT
 fi
 
 if [ "$INPUT_BINDER_CACHE" ]; then
