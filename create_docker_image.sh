@@ -127,8 +127,8 @@ echo "::endgroup::"
 echo "::group::Display conda packages dependency tree"
 docker run -u 1000 -w ${REPO_DIR} \
     ${SHA_NAME} /bin/bash -l -c '
-    mamba install -c conda-forge conda-tree "networkx>=2.5";
-    conda-tree deptree --full;
+    mamba install -c conda-forge conda-tree "networkx>=2.5" --yes;
+    conda-tree deptree;
 '
 echo "::endgroup::"
 
