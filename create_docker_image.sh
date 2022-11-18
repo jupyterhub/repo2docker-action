@@ -123,12 +123,22 @@ if [ "$INPUT_ADDITIONAL_TAG" ]; then
 fi
 echo "::endgroup::"
 
+# Run `conda-tree` after installing it so we know *why* specific packages were installed
+echo "::group::Display conda packages dependency tree"
+docker run -u 1000 -w ${REPO_DIR} \
+    ${SHA_NAME} /bin/bash -l -c '
+    mamba install -c conda-forge conda-tree "networkx>=2.5";
+    conda-tree deptree --full;
+'
+echo "::endgroup::"
+
+
 # If a directory named image-tests exists, run tests on the built image
 if [ -d "${PWD}/image-tests" ]; then
     echo "::group::Run tests found in image-tests/"
     # We pass in bash that is run inside the built container, so watch out for quoting.
     docker run -u 1000 -w ${REPO_DIR} \
-        ${SHA_NAME} /bin/bash -c '
+        ${SHA_NAME} /bin/bash -l -c '
         export PYTEST_FLAGS="";
 
         # If there is a requirements.txt file inside image-tests, install it.
