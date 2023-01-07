@@ -86,7 +86,7 @@ echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 echo "::group::Build ${SHA_NAME}"
 # Install specific version of repo2docker if required
 if [ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]; then
-    pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}
+    python3 -m pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}
 fi
 
 
