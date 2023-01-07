@@ -1,6 +1,6 @@
 FROM quay.io/jupyterhub/repo2docker:main
 
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl build-base
 
 RUN echo "**** install Python ****" && \
     apk add --no-cache python3 && \
