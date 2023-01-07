@@ -11,7 +11,10 @@ RUN echo "**** install Python ****" && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-RUN [[ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]] && pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}
+# FIXME: Figure out how to do this with sh, not bash
+# I hate bash / sh with the passion of a thousand burning suns. Makes me
+# feel so incompetent.
+RUN /bin/bash -c '[[ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]] && pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}'
 RUN apk add --no-cache curl
 
 COPY create_docker_image.sh /create_docker_image.sh
