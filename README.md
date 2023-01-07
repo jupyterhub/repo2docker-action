@@ -92,6 +92,8 @@ See the [examples](#examples) section is very helpful for understanding the inpu
     This the Git branch, tag, or commit that you want [mybinder.org](https://mybinder.org/) to proactively build from your repo.  This is useful if you wish to reduce startup time on mybinder.org.  **Your repository must be public for this work, as mybinder.org only works with public repositories**.
 - **`PUBLIC_REGISTRY_CHECK`**:
     Setting this variable to any value will validate that the image pushed to the registry is publicly visible.
+- **`REPO2DOCKER_EXTRA_ARGS`**:
+    Any extra commandline parameters to be passed to the repo2docker build command
 
 ## Outputs
 
