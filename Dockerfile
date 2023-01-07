@@ -1,5 +1,6 @@
 FROM quay.io/jupyterhub/repo2docker:main
 
+RUN apk add --no-cache curl
 
 RUN echo "**** install Python ****" && \
     apk add --no-cache python3 && \
@@ -11,11 +12,8 @@ RUN echo "**** install Python ****" && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-# FIXME: Figure out how to do this with sh, not bash
-# I hate bash / sh with the passion of a thousand burning suns. Makes me
-# feel so incompetent.
-RUN /bin/bash -c '[[ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]] && pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}'
-RUN apk add --no-cache curl
+# Install specific version of repo2docker if required
+RUN if [ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]; then pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION} ; fi
 
 COPY create_docker_image.sh /create_docker_image.sh
 COPY binder_cache.py /binder_cache.py
