@@ -83,6 +83,11 @@ echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 
 
 echo "::group::Build ${SHA_NAME}"
+# Install specific version of repo2docker if required
+if [ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]; then
+    pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}
+fi
+
 
 # If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
 if [ "$INPUT_BINDER_CACHE" ]; then
