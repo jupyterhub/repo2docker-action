@@ -138,7 +138,7 @@ if [ -d "${PWD}/image-tests" ]; then
     echo "::group::Run tests found in image-tests/"
     # We pass in bash that is run inside the built container, so watch out for quoting.
     docker run -u 1000 -w ${REPO_DIR} \
-        ${SHA_NAME} /bin/bash -l -c '
+        ${SHA_NAME} /bin/bash -c '
         export PYTEST_FLAGS="";
 
         # If there is a requirements.txt file inside image-tests, install it.
