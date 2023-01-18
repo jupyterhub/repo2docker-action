@@ -47,6 +47,9 @@ inputs:
   NO_GIT_PUSH:
     description: This is a private variable that is used by the maintainers of this Action for debugging.  Setting this value to true will prevent any changes from being saved to your repository.
     require: false
+  REPO2DOCKER_EXTRA_ARGS:
+    description: Extra commandline arguments to be passed to repo2docker
+    required: false
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.

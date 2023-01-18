@@ -109,9 +109,11 @@ if [ "$INPUT_BINDER_CACHE" ]; then
 fi
 
 # Just build the image, do not push it
+# Don't quote ${INPUT_REPO2DOCKER_EXTRA_ARGS}, as it *should* be interpreted as arbitrary
+# arguments to be passed to repo2docker
 jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} \
     --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} \
-    --appendix "$APPENDIX" ${PWD}
+    --appendix "$APPENDIX" ${INPUT_REPO2DOCKER_EXTRA_ARGS} ${PWD}
 
 if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
     docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
