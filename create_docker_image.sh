@@ -78,7 +78,8 @@ echo "::group::Show Variables"
     echo "SHA_NAME: ${SHA_NAME}"
 echo "::endgroup::"
 
-echo "IMAGE_SHA_NAME=${SHA_NAME}" >> $GITHUB_OUTPUT
+echo "go is $GITHUB_OUTPUT"
+echo "IMAGE_SHA_NAME=${SHA_NAME}" >> "$GITHUB_OUTPUT"
 echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 
 
