@@ -1,4 +1,4 @@
-name: 'repo2docker Tmp Action'
+name: 'repo2docker Action'
 description: 'Creates a docker image of your repository to view the collection of notebooks'
 inputs:
   DOCKER_USERNAME:
