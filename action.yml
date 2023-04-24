@@ -49,7 +49,11 @@ inputs:
     require: false
   REPO2DOCKER_EXTRA_ARGS:
     description: Extra commandline arguments to be passed to repo2docker
-    required: false
+  FORCE_REPO2DOCKER_VERSION:
+    description: Force a specific version of repo2docker to be installed. Either in the form of `repo2docker==<version>` for install from pypi, or `git+https://<github-url>@<commit-hash` for installing from a github repo / branch
+    require: false
+  EXTRA_PIP_INSTALL:
+    description: Extra packages to install in the image before running repo
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.

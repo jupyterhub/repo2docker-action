@@ -1,17 +1,10 @@
 FROM quay.io/jupyterhub/repo2docker:main
 
+RUN apk add --no-cache curl build-base python3 python3-dev py3-pip
 
-RUN echo "**** install Python ****" && \
-    apk add --no-cache python3 && \
-    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
-    \
-    echo "**** install pip ****" && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --no-cache --upgrade pip setuptools wheel && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
+RUN python3 -m pip install --upgrade wheel setuptools
 
-# let's try to install curl as explained here https://stackoverflow.com/a/41651363/1695486
+# https://stackoverflow.com/a/41651363/1695486
 RUN apk add --no-cache curl curl-dev
 COPY create_docker_image.sh /create_docker_image.sh
 COPY binder_cache.py /binder_cache.py

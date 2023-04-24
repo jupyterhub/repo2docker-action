@@ -94,6 +94,8 @@ See the [examples](#examples) section is very helpful for understanding the inpu
     Setting this variable to any value will validate that the image pushed to the registry is publicly visible.
 - **`REPO2DOCKER_EXTRA_ARGS`**:
     Any extra commandline parameters to be passed to the repo2docker build command
+- **`FORCE_REPO2DOCKER_VERSION`**:
+    Force a specific version of repo2docker to be installed. Either in the form of `repo2docker==<version>` for install from pypi, or `git+https://<github-url>@<commit-hash` for installing from a github repo / branch
 
 ## Outputs
 

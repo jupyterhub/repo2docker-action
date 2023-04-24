@@ -72,6 +72,7 @@ echo "::group::Show Variables"
     echo "INPUT_NOTEBOOK_USER: ${INPUT_NOTEBOOK_USER}"
     echo "INPUT_NO_PUSH: ${INPUT_NO_PUSH}"
     echo "INPUT_PUBLIC_REGISTRY_CHECK: ${INPUT_PUBLIC_REGISTRY_CHECK}"
+    echo "INPUT_FORCE_REPO2DOCKER_VERSION: ${INPUT_FORCE_REPO2DOCKER_VERSION}"
     echo "INPUT_REPO_DIR: ${INPUT_REPO_DIR}"
     echo "NB_USER: ${NB_USER}"
     echo "PWD: ${PWD}"
@@ -83,6 +84,11 @@ echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 
 
 echo "::group::Build ${SHA_NAME}"
+# Install specific version of repo2docker if required
+if [ ! -z "${INPUT_FORCE_REPO2DOCKER_VERSION}" ]; then
+    python3 -m pip install --upgrade --force ${INPUT_FORCE_REPO2DOCKER_VERSION}
+fi
+
 
 # If BINDER_CACHE flag is specified, validate user intent by checking for the presence of .binder and binder directories.
 if [ "$INPUT_BINDER_CACHE" ]; then
