@@ -11,7 +11,8 @@ RUN echo "**** install Python ****" && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-RUN apk add --no-cache curl
+# let's try to install curl as explained here https://stackoverflow.com/a/41651363/1695486
+RUN apk add --no-cache curl curl-dev
 COPY create_docker_image.sh /create_docker_image.sh
 COPY binder_cache.py /binder_cache.py
 COPY trigger_binder.sh /trigger_binder.sh
