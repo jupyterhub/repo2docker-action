@@ -134,7 +134,7 @@ if [ -d "${PWD}/image-tests" ]; then
     echo "::group::Run tests found in image-tests/"
     # We pass in bash that is run inside the built container, so watch out for quoting.
     docker run -u 1000 -v "${PWD}/image-tests:/tmp/image-tests" -w ${REPO_DIR} \
-        ${SHA_NAME} /bin/bash -c '
+        ${SHA_NAME} /bin/bash -l -c '
         export PYTEST_FLAGS="";
         pwd;
         ls *;
