@@ -136,6 +136,7 @@ if [ -d "${PWD}/image-tests" ]; then
     docker run -u 1000 -v "${PWD}/image-tests:/tmp/image-tests" -w ${REPO_DIR} \
         ${SHA_NAME} /bin/bash -c '
         export PYTEST_FLAGS="";
+	find /tmp/image-tests;
 
         # If there is a requirements.txt file inside image-tests, install it.
         # Useful if you want to install a bunch of pytest packages.
