@@ -135,6 +135,7 @@ if [ -d "${PWD}/image-tests" ]; then
     # We pass in bash that is run inside the built container, so watch out for quoting.
     docker run -u 1000 -v "${PWD}/image-tests:/tmp/image-tests" -w ${REPO_DIR} \
         ${SHA_NAME} /bin/bash -l -c '
+        set -x;
         export PYTEST_FLAGS="";
         pwd;
         ls *;
