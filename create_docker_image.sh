@@ -139,7 +139,7 @@ if [ -d "${PWD}/image-tests" ]; then
         pwd;
         ls *;
         echo "helllo";
-	find /tmp/image-tests;
+	ls -l /tmp/image-tests;
 
         # If there is a requirements.txt file inside image-tests, install it.
         # Useful if you want to install a bunch of pytest packages.
