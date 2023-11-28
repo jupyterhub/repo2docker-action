@@ -10,6 +10,11 @@ if [ "$INPUT_APPENDIX_FILE" ]; then
     echo "Appendix read from $INPUT_APPENDIX_FILE:\n$APPENDIX"
 fi
 
+# Set INPUT_NO_PUSH to false if it is not provided
+if [ -z "$INPUT_NO_PUSH" ]; then
+    INPUT_NO_PUSH="false"
+fi
+
 # Login to Docker registry if about to push and credentials are passed
 if [[ "$INPUT_NO_PUSH" = "false" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
     echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_DOCKER_USERNAME} --password-stdin
