@@ -11,7 +11,7 @@ if [ "$INPUT_APPENDIX_FILE" ]; then
 fi
 
 # Login to Docker registry if about to push and credentials are passed
-if [[ -z "$INPUT_NO_PUSH" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
+if [[ "$INPUT_NO_PUSH" = "false" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
     echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_DOCKER_USERNAME} --password-stdin
 fi
 
