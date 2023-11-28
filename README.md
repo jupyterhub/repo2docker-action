@@ -561,7 +561,7 @@ jobs:
 
 ## Test Image Build
 
-You might want to only test the image build withtout pushing to a registry, for example to test a pull request. You can do this by specifying any value for the `NO_PUSH` parameter:
+You might want to only test the image build withtout pushing to a registry, for example to test a pull request. You can do this by setting the `NO_PUSH` parameter to 'true':
 
 ```yaml
 name: Build Notebook Container
