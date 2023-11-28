@@ -200,7 +200,7 @@ if [ "$INPUT_NO_PUSH" = "false" ]; then
 
 else
     if [ "$INPUT_NO_PUSH" != "true" ]; then
-        echo "Error: invalid value for NO_PUSH: $INPUT_NO_PUSH. Value values are true or false."
+        echo "Error: invalid value for NO_PUSH: $INPUT_NO_PUSH. Valid values are true or false."
         exit 1
     fi
 
