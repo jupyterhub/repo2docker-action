@@ -165,7 +165,7 @@ if [ -d "${PWD}/image-tests" ]; then
     echo "::endgroup::"
 fi
 
-if [ -z "$INPUT_NO_PUSH" ]; then
+if [ "$INPUT_NO_PUSH" = "false" ]; then
     echo "::group::Pushing ${SHA_NAME}"
 
 	docker push ${SHA_NAME}
@@ -194,6 +194,11 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     fi
 
 else
+    if [ "$INPUT_NO_PUSH" != "true" ]; then
+        echo "Error: invalid value for NO_PUSH: $INPUT_NO_PUSH. Value values are true or false."
+        exit 1
+    fi
+
     echo "PUSH_STATUS=false" >> $GITHUB_OUTPUT
 fi
 
