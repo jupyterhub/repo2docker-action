@@ -10,8 +10,13 @@ if [ "$INPUT_APPENDIX_FILE" ]; then
     echo "Appendix read from $INPUT_APPENDIX_FILE:\n$APPENDIX"
 fi
 
+# Set INPUT_NO_PUSH to false if it is not provided
+if [ -z "$INPUT_NO_PUSH" ]; then
+    INPUT_NO_PUSH="false"
+fi
+
 # Login to Docker registry if about to push and credentials are passed
-if [[ -z "$INPUT_NO_PUSH" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
+if [[ "$INPUT_NO_PUSH" = "false" && -n "$INPUT_DOCKER_PASSWORD" && -n "$INPUT_DOCKER_USERNAME" ]]; then
     echo ${INPUT_DOCKER_PASSWORD} | docker login $INPUT_DOCKER_REGISTRY -u ${INPUT_DOCKER_USERNAME} --password-stdin
 fi
 
@@ -165,7 +170,7 @@ if [ -d "${PWD}/image-tests" ]; then
     echo "::endgroup::"
 fi
 
-if [ -z "$INPUT_NO_PUSH" ]; then
+if [ "$INPUT_NO_PUSH" = "false" ]; then
     echo "::group::Pushing ${SHA_NAME}"
 
 	docker push ${SHA_NAME}
@@ -194,6 +199,11 @@ if [ -z "$INPUT_NO_PUSH" ]; then
     fi
 
 else
+    if [ "$INPUT_NO_PUSH" != "true" ]; then
+        echo "Error: invalid value for NO_PUSH: $INPUT_NO_PUSH. Valid values are true or false."
+        exit 1
+    fi
+
     echo "PUSH_STATUS=false" >> $GITHUB_OUTPUT
 fi
 
