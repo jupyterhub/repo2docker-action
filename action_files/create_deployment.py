@@ -18,7 +18,7 @@ url = f"https://api.github.com/repos/{repo}/deployments"
 response = requests.post(url=url, headers=headers, json=data)
 assert response, f"Error: attempt to create deployment failed, received {response.status_code}"
 
-# if you get a 202 this means that it needs to merge master into the current branch
+# if you get a 202 this means that it needs to merge main into the current branch
 if response.status_code == 202:
     response = requests.post(url=url, headers=headers, json=data)
     assert response, f"Error: attempt to create deployment failed, received {response.status_code}"
