@@ -15,7 +15,7 @@ jobs:
       contents: write
     steps:
       # Action reference: https://github.com/Actions-R-Us/actions-tagger
-      - uses: Actions-R-Us/actions-tagger@f411bd910a5ad370d4511517e3eac7ff887c90ea
+      - uses: Actions-R-Us/actions-tagger@release/v2
         with:
           # By using branches as identifiers it is still possible to backtrack
           # some patch, but not if we use tags.
