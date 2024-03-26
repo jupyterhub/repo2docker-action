@@ -17,7 +17,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
       - name: Copy Repository Contents
-        uses: actions/checkout@v4
+        uses: actions/checkout@master
         
       - name: create deployment
         run: |

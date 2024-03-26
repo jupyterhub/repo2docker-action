@@ -166,7 +166,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }} # This builds the container on mybinder.org with the branch that was pushed on.
@@ -189,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.pull_request.head.ref }}
@@ -230,7 +230,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: update jupyter dependencies with repo2docker
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -255,7 +255,7 @@ jobs:
       uses: actions/checkout@main
 
     - name: update jupyter dependencies with repo2docker
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -300,7 +300,7 @@ to any particular cloud vendor.
          uses: actions/checkout@main
 
        - name: update jupyter dependencies with repo2docker
-         uses: jupyterhub/repo2docker-action@main
+         uses: jupyterhub/repo2docker-action@master
          with: # make sure username & password/token matches your registry
            DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
            DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
@@ -351,7 +351,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
 
 
        - name: Update jupyter dependencies with repo2docker
-         uses: jupyterhub/repo2docker-action@main
+         uses: jupyterhub/repo2docker-action@master
          with:
            DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
            IMAGE_NAME: "<aws-username>/<repository-name>"
@@ -400,7 +400,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
            password: ${{ secrets.GCP_SA_KEY }}
 
        - name: Update jupyter dependencies with repo2docker
-         uses: jupyterhub/repo2docker-action@main
+         uses: jupyterhub/repo2docker-action@master
          with:
            DOCKER_REGISTRY: gcr.io
            IMAGE_NAME: ${{ secrets.GCP_PROJECT_ID }}/<repository-name>
@@ -448,7 +448,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
            password: ${{ secrets.GCP_SA_KEY }}
 
        - name: Update jupyter dependencies with repo2docker
-         uses: jupyterhub/repo2docker-action@main
+         uses: jupyterhub/repo2docker-action@master
          with:
            DOCKER_REGISTRY: <location>-docker.pkg.dev
            IMAGE_NAME: ${{ secrets.GCP_PROJECT_ID }}/<repository-name>
@@ -481,7 +481,7 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
          uses: actions/checkout@main
 
        - name: Update jupyter dependencies with repo2docker
-         uses: jupyterhub/repo2docker-action@main
+         uses: jupyterhub/repo2docker-action@master
          with:
            DOCKER_USERNAME: ${{ secrets.ACR_USERNAME }}
            DOCKER_PASSWORD: ${{ secrets.ACR_PASSWORD }}
@@ -506,7 +506,7 @@ jobs:
       uses: actions/checkout@main
 
     - name: update jupyter dependencies with repo2docker
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with: # make sure username & password/token matches your registry
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -530,7 +530,7 @@ jobs:
     #       docker registry before running the repo2docker-action
 
     - name: update jupyter dependencies with repo2docker
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         DOCKER_REGISTRY: your-registry.example.org
         IMAGE_NAME: your-image-name
@@ -552,7 +552,7 @@ jobs:
       uses: actions/checkout@main
 
     - name: update jupyter dependencies with repo2docker
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -576,7 +576,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: test build
-      uses: jupyterhub/repo2docker-action@main
+      uses: jupyterhub/repo2docker-action@master
       with:
         NO_PUSH: 'true'
         IMAGE_NAME: "hamelsmu/repo2docker-test"
