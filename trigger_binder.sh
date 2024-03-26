@@ -1,6 +1,6 @@
 
 #!/usr/bin/env bash
-# from https://github.com/scikit-hep/pyhf/blob/master/binder/trigger_binder.sh
+# from https://github.com/scikit-hep/pyhf/blob/main/binder/trigger_binder.sh
 
 function trigger_binder() {
     local URL="${1}"
