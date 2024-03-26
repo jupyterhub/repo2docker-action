@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # exit when any command fails
-set -e
+set -ex
 
 echo "::group::Validate Information"
 
@@ -84,7 +84,8 @@ echo "::group::Show Variables"
     echo "SHA_NAME: ${SHA_NAME}"
 echo "::endgroup::"
 
-echo "IMAGE_SHA_NAME=${SHA_NAME}" >> $GITHUB_OUTPUT
+echo "go is $GITHUB_OUTPUT"
+# echo "IMAGE_SHA_NAME=${SHA_NAME}" >> "$GITHUB_OUTPUT"
 echo "IMAGE_SHA_TAG=${shortSHA}" >> $GITHUB_OUTPUT
 
 
@@ -137,6 +138,16 @@ if [ "$INPUT_ADDITIONAL_TAG" ]; then
     docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
 fi
 echo "::endgroup::"
+
+# Run `conda-tree` after installing it so we know *why* specific packages were installed
+echo "::group::Display conda packages dependency tree"
+docker run -u 1000 -w ${REPO_DIR} \
+    ${SHA_NAME} /bin/bash -l -c '
+    mamba install -c conda-forge conda-tree "networkx>=2.5" --yes;
+    conda-tree deptree;
+'
+echo "::endgroup::"
+
 
 # If a directory named image-tests exists, run tests on the built image
 if [ -d "${PWD}/image-tests" ]; then
