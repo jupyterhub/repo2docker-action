@@ -1,7 +1,24 @@
 name: Test
-on: [pull_request]
 
-jobs:    
+on:
+  pull_request:
+    paths-ignore:
+      - ".github/workflows/*.yaml"
+      - "!.github/workflows/test.yaml"
+  push:
+    paths-ignore:
+      - ".github/workflows/*.yaml"
+      - "!.github/workflows/test.yaml"
+    branches-ignore:
+      - "dependabot/**"
+      - "pre-commit-ci-update-config"
+    tags: ["**"]
+  schedule:
+    # Run at 05:00 every day, ref: https://crontab.guru/#0_5_*_*_*
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+jobs:
   test-registry:
     runs-on: ubuntu-latest
     strategy:
@@ -16,8 +33,7 @@ jobs:
         ports:
           - 5000:5000
     steps:  
-    - name: Checkout
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: test action
       uses: ./
       with:
@@ -32,8 +48,7 @@ jobs:
   mybinder:
     runs-on: ubuntu-latest
     steps:  
-    - name: Checkout PR
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
         
     - name: mybinder
       uses: ./
