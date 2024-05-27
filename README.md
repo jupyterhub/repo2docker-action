@@ -117,7 +117,7 @@ run any Jupyter Notebooks as tests.
 This **works with any Jupyter kernel**. This action will use the Jupyter kernel defined in any notebook you put in `image-tests/`. This can be used to execute and test notebooks from any language.
 
 > [!WARNING]  
-> If you are using a Dockerfile to configure your environment, then include `COPY --chown=${NB_USER}:${NB_USER} image-tests /srv/repo/image-tests` in your Dockerfile to ensure the correct ownership of this folder within the image.
+> If you are using a Dockerfile to configure your environment, then include `COPY --chown=${NB_USER}:${NB_USER} image-tests ${REPO_DIR}/image-tests` in your Dockerfile to ensure the correct ownership of this folder within the image.
 
 To use automatic image testing, follow these steps:
 
