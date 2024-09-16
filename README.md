@@ -22,6 +22,7 @@
 	- [Push Repo2Docker Image To Amazon ECR](#push-repo2docker-image-to-amazon-ecr)
 	- [Push Repo2Docker Image To Google Container Registry](#push-repo2docker-image-to-google-container-registry)
 	- [Push Repo2Docker Image To Google Artifact Registry](#push-repo2docker-image-to-google-artifact-registry)
+  	- [Push Repo2Docker Image To GitHub Package Registry](#push-repo2docker-image-to-github-package-registry)
 	- [Push Repo2Docker Image To Azure Container Registry](#push-repo2docker-image-to-azure-container-registry)
 	- [Push Repo2Docker Image To Other Registries](#push-repo2docker-image-to-other-registries)
 	- [Change Image Name](#change-image-name)
@@ -492,6 +493,35 @@ Once done, it will give you an 'Access key ID' and the 'Secret access key'.
            IMAGE_NAME: <repository-name>
 
    ```
+
+## Push Repo2Docker Image To GitHub Package Registry
+
+You can push the image to the package registry associated with the GitHub Repository that the repo2docker files are in. No set-up is necessary.
+
+1. Use the following config for your github action.
+   ```yaml
+   name: Build container image
+
+   on: [push]
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+
+       - name: checkout files in repo
+         uses: actions/checkout@main
+
+       - name: update jupyter dependencies with repo2docker
+         uses: jupyterhub/repo2docker-action@master
+         with: 
+           DOCKER_USERNAME: ${{github.actor}}
+           DOCKER_PASSWORD: ${{secrets.GITHUB_TOKEN}}
+           DOCKER_REGISTRY: "ghcr.io"
+           IMAGE_NAME: "<github-username or orgname>/<repository-name>"
+   ```
+
+The image url will be `ghcr.io/<github-username or orgname>/<repository-name>` and appear in "packages" in the right side of the repository window.
 
 ## Push Repo2Docker Image To Other Registries
 
