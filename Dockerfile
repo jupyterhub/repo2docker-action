@@ -1,4 +1,4 @@
-FROM quay.io/jupyterhub/repo2docker:main
+FROM quay.io/jupyterhub/repo2docker:2025.12.0
 
 RUN apk add --no-cache curl build-base python3 python3-dev py3-pip
 
