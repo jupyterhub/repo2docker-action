@@ -155,7 +155,7 @@ if [ -d "${PWD}/image-tests" ]; then
         # If pytest is not already installed in the image, install it.
         which py.test > /dev/null || \
             echo "Installing pytest inside the image..." && \
-            python3 -m pip install --no-cache pytest > /dev/null;
+            python3 -m pip install --no-cache "pytest<9" > /dev/null;
 
         # If there are any .ipynb files in image-tests, install pytest-notebook
         # if necessary, and set PYTEST_FLAGS so notebook tests are run.
