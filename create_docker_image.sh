@@ -29,10 +29,9 @@ if [ -z "$INPUT_IMAGE_NAME" ]; then
     else
         INPUT_IMAGE_NAME="$INPUT_DOCKER_USERNAME/$REPO_NAME"
     fi
-
-    # Lower-case
-    INPUT_IMAGE_NAME="${INPUT_IMAGE_NAME,,}"
 fi
+# Lower-case
+INPUT_IMAGE_NAME="${INPUT_IMAGE_NAME,,}"
 
 # Prepend image name with registry if it is supplied
 if [ "$INPUT_DOCKER_REGISTRY" ]; then
@@ -57,7 +56,7 @@ if [ -z "$INPUT_REPO_DIR" ];
 fi
 
 # Set Local Variables
-shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
+shortSHA=$(echo "${INPUT_IMAGE_SHA}" | cut -c1-12)
 SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
 
 # Attempt to pull the image for a cached build
@@ -71,8 +70,6 @@ echo "::group::Show Variables"
     echo "INPUT_APPENDIX_FILE: ${INPUT_APPENDIX_FILE}"
     echo "INPUT_BINDER_CACHE: ${INPUT_BINDER_CACHE}"
     echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
-    echo "INPUT_IMAGE_NAME: ${INPUT_IMAGE_NAME}"
-    echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
     echo "INPUT_MYBINDERORG_TAG: ${INPUT_MYBINDERORG_TAG}"
     echo "INPUT_NOTEBOOK_USER: ${INPUT_NOTEBOOK_USER}"
     echo "INPUT_NO_PUSH: ${INPUT_NO_PUSH}"
@@ -127,14 +124,17 @@ fi
 jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} \
     --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} \
     --label "repo2docker.repo=https://github.com/${GITHUB_REPOSITORY}" \
-    --label "repo2docker.ref=${GITHUB_REF}" \
+    --label "repo2docker.ref=${INPUT_IMAGE_SHA}" \
     --appendix "$APPENDIX" ${INPUT_REPO2DOCKER_EXTRA_ARGS} ${PWD}
 
 if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
     docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
 fi
 if [ "$INPUT_ADDITIONAL_TAG" ]; then
-    docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:$INPUT_ADDITIONAL_TAG
+    IFS=',' read -ra TAGS <<< "$INPUT_ADDITIONAL_TAG"
+    for tag in "${TAGS[@]}"; do
+        docker tag "${SHA_NAME}" "${INPUT_IMAGE_NAME}:${tag}"
+    done
 fi
 echo "::endgroup::"
 
@@ -186,7 +186,7 @@ if [ "$INPUT_NO_PUSH" = "false" ]; then
 
     echo "PUSH_STATUS=true" >> $GITHUB_OUTPUT
 
-    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ]; then
+    if [ "$INPUT_PUBLIC_REGISTRY_CHECK" ] && [ "$INPUT_NO_PUSH" = "false" ]; then
         echo "::group::Verify That Image Is Public"
         docker logout
         if docker pull $SHA_NAME; then

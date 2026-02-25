@@ -13,6 +13,10 @@ inputs:
   IMAGE_NAME:
     description: name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to $DOCKER_USERNAME/$GITHUB_REPOSITORY_NAME or $GITHUB_ACTOR/$GITHUB_REPOSITORY_NAME.
     require: false
+  IMAGE_SHA:
+    description: Current commit SHA hash. If not provided, this defaults to $GITHUB_SHA.
+    require: false
+    default: ${{ github.sha }}
   NOTEBOOK_USER:
     description: username of the primary user in the image
     require: false
@@ -26,7 +30,7 @@ inputs:
     description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the GitHub commit SHA.  This is enabled by default.
     require: false
   ADDITIONAL_TAG:
-    description: An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant GitHub SHA.
+    description: An optional string that specifies a comma-separated list of additional tags you would like to apply to the image.  Images are already tagged with the relevant GitHub SHA.
     require: false
   NO_PUSH:
     description: Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.
