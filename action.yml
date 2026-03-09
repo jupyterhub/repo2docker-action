@@ -23,7 +23,7 @@ inputs:
     description: Appendix of Dockerfile commands to run at the end of the build. Can be used to customize the resulting image after all standard build steps finish.
     require: false
   LATEST_TAG_OFF:
-    description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the GitHub commit SHA.  This is enabled by default.
+    description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additional to the GitHub commit SHA.  This is enabled by default.
     require: false
   ADDITIONAL_TAG:
     description: An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant GitHub SHA.
