@@ -56,6 +56,8 @@ if [ -z "$INPUT_REPO_DIR" ];
         REPO_DIR="${INPUT_REPO_DIR}"
 fi
 
+SOURCE_DIR="${PWD}/${INPUT_SOURCE_SUBDIR}"
+
 # Set Local Variables
 shortSHA=$(echo "${GITHUB_SHA}" | cut -c1-12)
 SHA_NAME="${INPUT_IMAGE_NAME}:${shortSHA}"
@@ -79,8 +81,10 @@ echo "::group::Show Variables"
     echo "INPUT_PUBLIC_REGISTRY_CHECK: ${INPUT_PUBLIC_REGISTRY_CHECK}"
     echo "INPUT_FORCE_REPO2DOCKER_VERSION: ${INPUT_FORCE_REPO2DOCKER_VERSION}"
     echo "INPUT_REPO_DIR: ${INPUT_REPO_DIR}"
+    echo "INPUT_SOURCE_SUBDIR: ${INPUT_SOURCE_SUBDIR}"
     echo "NB_USER: ${NB_USER}"
     echo "PWD: ${PWD}"
+    echo "SOURCE_DIR: ${SOURCE_DIR}"
     echo "SHA_NAME: ${SHA_NAME}"
 echo "::endgroup::"
 
@@ -128,7 +132,7 @@ jupyter-repo2docker --no-run --user-id 1000 --user-name ${NB_USER} \
     --target-repo-dir ${REPO_DIR} --image-name ${SHA_NAME} --cache-from ${INPUT_IMAGE_NAME} \
     --label "repo2docker.repo=https://github.com/${GITHUB_REPOSITORY}" \
     --label "repo2docker.ref=${GITHUB_REF}" \
-    --appendix "$APPENDIX" ${INPUT_REPO2DOCKER_EXTRA_ARGS} ${PWD}
+    --appendix "$APPENDIX" ${INPUT_REPO2DOCKER_EXTRA_ARGS} "${SOURCE_DIR}"
 
 if [ -z "$INPUT_LATEST_TAG_OFF" ]; then
     docker tag ${SHA_NAME} ${INPUT_IMAGE_NAME}:latest
@@ -139,7 +143,7 @@ fi
 echo "::endgroup::"
 
 # If a directory named image-tests exists, run tests on the built image
-if [ -d "${PWD}/image-tests" ]; then
+if [ -d "${SOURCE_DIR}/image-tests" ]; then
     echo "::group::Run tests found in image-tests/"
     # We pass in bash that is run inside the built container, so watch out for quoting.
     docker run -u 1000 -w ${REPO_DIR} \
