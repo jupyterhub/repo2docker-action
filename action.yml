@@ -54,6 +54,11 @@ inputs:
     require: false
   EXTRA_PIP_INSTALL:
     description: Extra packages to install in the image before running repo
+  # Not using REPO_SUBDIR as there's already a REPO_DIR with different semantics
+  SOURCE_SUBDIR:
+    description: Subdirectory within the repo to use for building the image. Defaults to using the repo root
+    required: false
+    default: '.'
 outputs:
   IMAGE_SHA_NAME:
     description: The name of the docker image, which is tagged with the SHA.
