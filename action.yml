@@ -3,55 +3,55 @@ description: 'Creates a docker image of your repository to view the collection o
 inputs:
   DOCKER_USERNAME:
     description: Docker registry username.  If not supplied, credentials must be setup ahead of time.
-    require: false
+    required: false
   DOCKER_PASSWORD:
     description: Docker registry password.  If not supplied, credentials must be setup ahead of time.
     required: false
   DOCKER_REGISTRY:
     description: domain name of the docker registry.  If not supplied, this defaults to registry.hub.docker.com.
-    require: false
+    required: false
   IMAGE_NAME:
     description: name of the image.  Example - myusername/myContainer.  If not supplied, this defaults to $DOCKER_USERNAME/$GITHUB_REPOSITORY_NAME or $GITHUB_ACTOR/$GITHUB_REPOSITORY_NAME.
-    require: false
+    required: false
   NOTEBOOK_USER:
     description: username of the primary user in the image
-    require: false
+    required: false
   REPO_DIR:
     description: path inside the image where contents of the repositories are copied to
-    require: false
+    required: false
   APPENDIX_FILE:
     description: Appendix of Dockerfile commands to run at the end of the build. Can be used to customize the resulting image after all standard build steps finish.
-    require: false
+    required: false
   LATEST_TAG_OFF:
     description: Setting this variable to any value will prevent your image from being tagged with `latest`, in additiona to the GitHub commit SHA.  This is enabled by default.
-    require: false
+    required: false
   ADDITIONAL_TAG:
     description: An optional string that specifies the name of an additional tag you would like to apply to the image.  Images are already tagged with the relevant GitHub SHA.
-    require: false
+    required: false
   NO_PUSH:
     description: Setting this variable to any value will turn debug mode on.  When debug mode is on, images will not be pushed to the registry.  Furthermore, verbose logging will be enabled.
-    require: false
+    required: false
   BINDER_CACHE:
     description: Setting this variable to any value will add the file binder/Dockerfile that references the docker image that was pushed to the registry by this Action.  You cannot use this option if the parameter NO_PUSH is set.  This is disabled by default.
-    require: false
+    required: false
   COMMIT_MSG:
     description: The commit message associated with specifying the `BINDER_CACHE` flag.
-    require: false
+    required: false
     default: Update image tag
   MYBINDERORG_TAG:
     description: This the Git branch, tag, or commit that you want mybinder.org to proactively build from your repo.  This is useful if you wish to avoid startup time on mybinder.org.  Your repository must be public for this work, as mybinder.org only works on public repositories.
-    require: false
+    required: false
   PUBLIC_REGISTRY_CHECK:
     description: Setting this variable to any value will validate that the image pushed to the registry is publicly visible.
-    require: false
+    required: false
   NO_GIT_PUSH:
     description: This is a private variable that is used by the maintainers of this Action for debugging.  Setting this value to true will prevent any changes from being saved to your repository.
-    require: false
+    required: false
   REPO2DOCKER_EXTRA_ARGS:
     description: Extra commandline arguments to be passed to repo2docker
   FORCE_REPO2DOCKER_VERSION:
     description: Force a specific version of repo2docker to be installed. Either in the form of `repo2docker==<version>` for install from pypi, or `git+https://<github-url>@<commit-hash` for installing from a github repo / branch
-    require: false
+    required: false
   EXTRA_PIP_INSTALL:
     description: Extra packages to install in the image before running repo
 outputs:
